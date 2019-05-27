@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="date" content="2019-05-21" />
+
+<title>Towards confidence estimates in Cascade Networks using the SelectBoost package</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Towards confidence estimates in Cascade Networks using the SelectBoost package</h1>
+<h4 class="author">Frédéric Bertrand</h4>
+<address class="author_afil">
+Université de Strasbourg and CNRS<br><a class="author_email" href="mailto:#"><a href="mailto:frederic.bertrand@math.unistra.fr" class="email">frederic.bertrand@math.unistra.fr</a></a>
+</address>
+<h4 class="date">2019-05-21</h4>
+
+
+
+<p>#Introduction</p>
+<div id="aims-of-the-vignette" class="section level2">
+<h2>Aims of the vignette</h2>
+<p>Extending results from the <code>Cascade</code> package: reverse engineering with selectboost to compute <strong>confidence indices for a fitted model</strong>. We first fit a model to a cascade network using the <code>Cascade</code> package <code>inference</code> function then we compute confidence indices for the inferred links using the <code>Selecboost</code> algorithm.</p>
+<p>If you are a Linux/Unix or a Macos user, you can install a version of SelectBoost with support for <code>doMC</code> from <a href="https://github.com">github</a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;fbertran/SelectBoost&quot;</span>, <span class="dt">ref =</span> <span class="st">&quot;doMC&quot;</span>)</a></code></pre></div>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<ul>
+<li><p>Reference for the Cascade modelling: Vallat, L., Kemper, C. a., Jung, N., Maumy-Bertrand, M., Bertrand, F., Meyer, N., Pocheville, A., Fisher, J. W., Gribben, J. G. et Bahram, S. (2013). Reverse-engineering the genetic circuitry of a cancer cell with predicted intervention in chronic lymphocytic leukemia. <em>Proceedings of the National Academy of Sciences of the United States of America</em>, 110(2), 459-64.</p></li>
+<li><p>Reference for the Cascade package: Jung, N., Bertrand, F., Bahram, S., Vallat, L. et Maumy-Bertrand, M. (2014). Cascade : A R package to study, predict and simulate the diffusion of a signal through a temporal gene network. <em>Bioinformatics</em>.</p></li>
+</ul>
+</div>
+<div id="code" class="section level1">
+<h1>Code</h1>
+<p>Code to reproduce the datasets saved with the package and some the figures of the article Aouadi et al. (2018), &lt;arXiv:1810.01670&gt;</p>
+<div id="data-simulation" class="section level2">
+<h2>Data simulation</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">library</span>(Cascade)</a></code></pre></div>
+<p>We define the F array for the simulations.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">T&lt;-<span class="dv">4</span></a>
+<a class="sourceLine" id="cb3-2" title="2">F&lt;-<span class="kw">array</span>(<span class="dv">0</span>,<span class="kw">c</span>(T<span class="dv">-1</span>,T<span class="dv">-1</span>,T<span class="op">*</span>(T<span class="dv">-1</span>)<span class="op">/</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb3-3" title="3"></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>(T<span class="op">*</span>(T<span class="dv">-1</span>)<span class="op">/</span><span class="dv">2</span>)){<span class="kw">diag</span>(F[,,i])&lt;-<span class="dv">1</span>}</a>
+<a class="sourceLine" id="cb3-5" title="5">F[,,<span class="dv">2</span>]&lt;-F[,,<span class="dv">2</span>]<span class="op">*</span><span class="fl">0.2</span></a>
+<a class="sourceLine" id="cb3-6" title="6">F[<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>]&lt;-<span class="dv">1</span></a>
+<a class="sourceLine" id="cb3-7" title="7">F[<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">2</span>]&lt;-<span class="dv">1</span></a>
+<a class="sourceLine" id="cb3-8" title="8">F[,,<span class="dv">4</span>]&lt;-F[,,<span class="dv">2</span>]<span class="op">*</span><span class="fl">0.3</span></a>
+<a class="sourceLine" id="cb3-9" title="9">F[<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">4</span>]&lt;-<span class="dv">1</span></a>
+<a class="sourceLine" id="cb3-10" title="10">F[,,<span class="dv">5</span>]&lt;-F[,,<span class="dv">2</span>]</a></code></pre></div>
+<p>We set the seed to make the results reproducible</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">set.seed</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb4-2" title="2">Net&lt;-Cascade<span class="op">::</span><span class="kw">network_random</span>(</a>
+<a class="sourceLine" id="cb4-3" title="3">  <span class="dt">nb=</span><span class="dv">100</span>,</a>
+<a class="sourceLine" id="cb4-4" title="4">  <span class="dt">time_label=</span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,<span class="dt">each=</span><span class="dv">25</span>),</a>
+<a class="sourceLine" id="cb4-5" title="5">  <span class="dt">exp=</span><span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb4-6" title="6">  <span class="dt">init=</span><span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb4-7" title="7">  <span class="dt">regul=</span><span class="kw">round</span>(<span class="kw">rexp</span>(<span class="dv">100</span>,<span class="dv">1</span>))<span class="op">+</span><span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb4-8" title="8">  <span class="dt">min_expr=</span><span class="fl">0.1</span>,</a>
+<a class="sourceLine" id="cb4-9" title="9">  <span class="dt">max_expr=</span><span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb4-10" title="10">  <span class="dt">casc.level=</span><span class="fl">0.4</span></a>
+<a class="sourceLine" id="cb4-11" title="11">)</a>
+<a class="sourceLine" id="cb4-12" title="12">Net<span class="op">@</span>F&lt;-F</a></code></pre></div>
+<p>We simulate gene expression according to the network Net</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">M &lt;-<span class="st"> </span>Cascade<span class="op">::</span><span class="kw">gene_expr_simulation</span>(</a>
+<a class="sourceLine" id="cb5-2" title="2">  <span class="dt">network=</span>Net,</a>
+<a class="sourceLine" id="cb5-3" title="3">  <span class="dt">time_label=</span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,<span class="dt">each=</span><span class="dv">25</span>),</a>
+<a class="sourceLine" id="cb5-4" title="4">  <span class="dt">subject=</span><span class="dv">5</span>,</a>
+<a class="sourceLine" id="cb5-5" title="5">  <span class="dt">level_peak=</span><span class="dv">200</span>)</a></code></pre></div>
+</div>
+<div id="network-inference" class="section level2">
+<h2>Network inference</h2>
+<p>We infer the new network.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">Net_inf_C &lt;-<span class="st"> </span>Cascade<span class="op">::</span><span class="kw">inference</span>(M,<span class="dt">cv.subjects=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="co">#&gt; We are at step :  1</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt; The convergence of the network is (L1 norm) : 0.0068</span></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="co">#&gt; We are at step :  2</span></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="co">#&gt; The convergence of the network is (L1 norm) : 0.00121</span></a>
+<a class="sourceLine" id="cb6-6" title="6"><span class="co">#&gt; We are at step :  3</span></a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="co">#&gt; The convergence of the network is (L1 norm) : 0.00096</span></a></code></pre></div>
+<p>Heatmap of the coefficients of the Omega matrix of the network. Run the code to get the graph.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">stats<span class="op">::</span><span class="kw">heatmap</span>(Net_inf_C<span class="op">@</span>network, <span class="dt">Rowv =</span> <span class="ot">NA</span>, <span class="dt">Colv =</span> <span class="ot">NA</span>, <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">revC=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">Fab_inf_C &lt;-<span class="st"> </span>Net_inf_C<span class="op">@</span>F</a></code></pre></div>
+</div>
+<div id="compute-the-confidence-indices-for-the-inference" class="section level2">
+<h2>Compute the confidence indices for the inference</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">library</span>(SelectBoost)</a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="kw">set.seed</span>(<span class="dv">1</span>)</a></code></pre></div>
+<p>By default the crossvalidation is made subjectwise according to a leave one out scheme and the resampling analysis is made at the .95 <code>c0</code> level. To pass CRAN tests, <code>use.parallel = FALSE</code> is required. Set <code>use.parallel = TRUE</code> and select the number of cores using <code>ncores = 4</code>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">net_pct_selected &lt;-<span class="st"> </span><span class="kw">selectboost</span>(M, Fab_inf_C, <span class="dt">use.parallel =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="co">#&gt; We are at peak :  2</span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="co">#&gt; .........................</span></a>
+<a class="sourceLine" id="cb10-5" title="5"><span class="co">#&gt; We are at peak :  3</span></a>
+<a class="sourceLine" id="cb10-6" title="6"><span class="co">#&gt; .........................</span></a>
+<a class="sourceLine" id="cb10-7" title="7"><span class="co">#&gt; We are at peak :  4</span></a>
+<a class="sourceLine" id="cb10-8" title="8"><span class="co">#&gt; .........................</span></a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">net_pct_selected_.<span class="dv">5</span> &lt;-<span class="st"> </span><span class="kw">selectboost</span>(M, Fab_inf_C, <span class="dt">c0value =</span> <span class="fl">.5</span>, <span class="dt">use.parallel =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb11-3" title="3"><span class="co">#&gt; We are at peak :  2</span></a>
+<a class="sourceLine" id="cb11-4" title="4"><span class="co">#&gt; .........................</span></a>
+<a class="sourceLine" id="cb11-5" title="5"><span class="co">#&gt; We are at peak :  3</span></a>
+<a class="sourceLine" id="cb11-6" title="6"><span class="co">#&gt; .........................</span></a>
+<a class="sourceLine" id="cb11-7" title="7"><span class="co">#&gt; We are at peak :  4</span></a>
+<a class="sourceLine" id="cb11-8" title="8"><span class="co">#&gt; .........................</span></a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">net_pct_selected_thr &lt;-<span class="st"> </span><span class="kw">selectboost</span>(M, Fab_inf_C, <span class="dt">group =</span> group_func_<span class="dv">1</span>, <span class="dt">use.parallel =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb12-3" title="3"><span class="co">#&gt; We are at peak :  2</span></a>
+<a class="sourceLine" id="cb12-4" title="4"><span class="co">#&gt; .........................</span></a>
+<a class="sourceLine" id="cb12-5" title="5"><span class="co">#&gt; We are at peak :  3</span></a>
+<a class="sourceLine" id="cb12-6" title="6"><span class="co">#&gt; .........................</span></a>
+<a class="sourceLine" id="cb12-7" title="7"><span class="co">#&gt; We are at peak :  4</span></a>
+<a class="sourceLine" id="cb12-8" title="8"><span class="co">#&gt; .........................</span></a></code></pre></div>
+<p>Use <code>cv.subject=FALSE</code> to use default crossvalidation</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">net_pct_selected_cv &lt;-<span class="st"> </span><span class="kw">selectboost</span>(M, Fab_inf_C, <span class="dt">cv.subject=</span><span class="ot">FALSE</span>, <span class="dt">use.parallel =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-3" title="3"><span class="co">#&gt; We are at peak :  2</span></a>
+<a class="sourceLine" id="cb13-4" title="4"><span class="co">#&gt; .........................</span></a>
+<a class="sourceLine" id="cb13-5" title="5"><span class="co">#&gt; We are at peak :  3</span></a>
+<a class="sourceLine" id="cb13-6" title="6"><span class="co">#&gt; .........................</span></a>
+<a class="sourceLine" id="cb13-7" title="7"><span class="co">#&gt; We are at peak :  4</span></a>
+<a class="sourceLine" id="cb13-8" title="8"><span class="co">#&gt; .........................</span></a></code></pre></div>
+</div>
+<div id="analysis-of-the-confidence-indices" class="section level2">
+<h2>Analysis of the confidence indices</h2>
+<p>Use plot to display the result of the confidence analysis.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">plot</span>(net_pct_selected)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>Run the code to plot the other results.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">plot</span>(net_pct_selected_.<span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">plot</span>(net_pct_selected_thr)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">plot</span>(net_pct_selected_cv)</a></code></pre></div>
+<p>Run the code to plot the remaning graphs.</p>
+<p>Distribution of non-zero (absolute value &gt; 1e-5) coefficients</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">hist</span>(Net_inf_C<span class="op">@</span>network[<span class="kw">abs</span>(Net_inf_C<span class="op">@</span>network)<span class="op">&gt;</span><span class="fl">1e-5</span>])</a></code></pre></div>
+<p>Plot of confidence at .95 resampling level versus coefficient value for non-zero (absolute value &gt; 1e-5) coefficients</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">plot</span>(Net_inf_C<span class="op">@</span>network[<span class="kw">abs</span>(Net_inf_C<span class="op">@</span>network)<span class="op">&gt;</span><span class="fl">1e-5</span>],net_pct_selected<span class="op">@</span>network.confidence[<span class="kw">abs</span>(Net_inf_C<span class="op">@</span>network)<span class="op">&gt;</span><span class="fl">1e-5</span>])</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">hist</span>(net_pct_selected<span class="op">@</span>network.confidence[<span class="kw">abs</span>(Net_inf_C<span class="op">@</span>network)<span class="op">&gt;</span><span class="fl">1e-5</span>])</a></code></pre></div>
+<p>Plot of confidence at .5 resampling level versus coefficient value for non-zero (absolute value &gt; 1e-5) coefficients</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">plot</span>(Net_inf_C<span class="op">@</span>network[<span class="kw">abs</span>(Net_inf_C<span class="op">@</span>network)<span class="op">&gt;</span><span class="fl">1e-5</span>],net_pct_selected_.<span class="dv">5</span><span class="op">@</span>network.confidence[<span class="kw">abs</span>(Net_inf_C<span class="op">@</span>network)<span class="op">&gt;</span><span class="fl">1e-5</span>])</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="kw">hist</span>(net_pct_selected_.<span class="dv">5</span><span class="op">@</span>network.confidence[<span class="kw">abs</span>(Net_inf_C<span class="op">@</span>network)<span class="op">&gt;</span><span class="fl">1e-5</span>])</a></code></pre></div>
+<p>Plot of confidence at .95 resamling level with groups created by thresholding the correlation matrix versus coefficient value for non-zero (absolute value &gt; 1e-5) coefficients.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">plot</span>(Net_inf_C<span class="op">@</span>network[<span class="kw">abs</span>(Net_inf_C<span class="op">@</span>network)<span class="op">&gt;</span><span class="fl">1e-5</span>],net_pct_selected_thr<span class="op">@</span>network.confidence[<span class="kw">abs</span>(Net_inf_C<span class="op">@</span>network)<span class="op">&gt;</span><span class="fl">1e-5</span>])</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">hist</span>(net_pct_selected_thr<span class="op">@</span>network.confidence[<span class="kw">abs</span>(Net_inf_C<span class="op">@</span>network)<span class="op">&gt;</span><span class="fl">1e-5</span>])</a></code></pre></div>
+<p>Plot of confidence at .95 resampling level versus coefficient value for non-zero (absolute value &gt; 1e-5) coefficients using standard cross-validation.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="kw">plot</span>(Net_inf_C<span class="op">@</span>network[<span class="kw">abs</span>(Net_inf_C<span class="op">@</span>network)<span class="op">&gt;</span><span class="fl">1e-5</span>],net_pct_selected_cv<span class="op">@</span>network.confidence[<span class="kw">abs</span>(Net_inf_C<span class="op">@</span>network)<span class="op">&gt;</span><span class="fl">1e-5</span>])</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="kw">hist</span>(net_pct_selected_cv<span class="op">@</span>network.confidence[<span class="kw">abs</span>(Net_inf_C<span class="op">@</span>network)<span class="op">&gt;</span><span class="fl">1e-5</span>])</a></code></pre></div>
+</div>
+<div id="further-improvements" class="section level2">
+<h2>Further improvements</h2>
+<p>Either decrease percent selected or choose <code>c0</code> as a quantile.</p>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
