@@ -7,7 +7,7 @@
 #' @return Various types depending on the function.
 #' @family Selectboost functions
 #' @author Frederic Bertrand, \email{frederic.bertrand@@math.unistra.fr}
-#' @references \emph{selectBoost: a general algorithm to enhance the performance of variable selection methods in correlated datasets}, Ismaïl Aouadi, Nicolas Jung, Raphael Carapito, Laurent Vallat, Seiamak Bahram, Myriam Maumy-Bertrand, Frédéric Bertrand, \url{https://arxiv.org/abs/1810.01670}
+#' @references \emph{selectBoost: a general algorithm to enhance the performance of variable selection methods in correlated datasets}, Frédéric Bertrand, Ismaïl Aouadi, Nicolas Jung, Raphael Carapito, Laurent Vallat, Seiamak Bahram, Myriam Maumy-Bertrand, \url{https://arxiv.org/abs/1810.01670}
 #' @seealso \code{\link{fastboost}}, \code{\link{autoboost}}
 #' @examples
 #' set.seed(314)
@@ -216,7 +216,15 @@ boost.adjust<-function(X,groups,Correlation_sign,Xpass=boost.Xpass(nrowX,ncolX),
         indice<-groups[[j]]
       }
       corr_set2<-sweep(corr_set0[,indice,drop=FALSE],2L,Correlation_sign[indice,j],"*")
-      return(vmf.mle(t(corr_set2)))
+      out.vmf.mle <- tryCatch({
+        vmf.mle(t(corr_set2))
+      }, error=function(cond) {
+        message("Here's the original error message:")
+        message(cond)
+        return("NoRandom")
+      }
+      )
+      return(out.vmf.mle)
     }else{
       if(verbose){
         print(paste(j,": NoRandom","\n"))
