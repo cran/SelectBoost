@@ -1,45 +1,55 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
-<meta name="date" content="2020-02-23" />
+<meta name="date" content="2021-03-20" />
 
 <title>Simulation Tools Provided With the Selectboost Package</title>
 
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -48,9 +58,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -107,189 +117,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<style type="text/css">body {
-background-color: #fff;
-margin: 1em auto;
-max-width: 700px;
-overflow: visible;
-padding-left: 2em;
-padding-right: 2em;
-font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-font-size: 14px;
-line-height: 1.35;
-}
-#header {
-text-align: center;
-}
-#TOC {
-clear: both;
-margin: 0 0 10px 10px;
-padding: 4px;
-width: 400px;
-border: 1px solid #CCCCCC;
-border-radius: 5px;
-background-color: #f6f6f6;
-font-size: 13px;
-line-height: 1.3;
-}
-#TOC .toctitle {
-font-weight: bold;
-font-size: 15px;
-margin-left: 5px;
-}
-#TOC ul {
-padding-left: 40px;
-margin-left: -1.5em;
-margin-top: 5px;
-margin-bottom: 5px;
-}
-#TOC ul ul {
-margin-left: -2em;
-}
-#TOC li {
-line-height: 16px;
-}
-table {
-margin: 1em auto;
-border-width: 1px;
-border-color: #DDDDDD;
-border-style: outset;
-border-collapse: collapse;
-}
-table th {
-border-width: 2px;
-padding: 5px;
-border-style: inset;
-}
-table td {
-border-width: 1px;
-border-style: inset;
-line-height: 18px;
-padding: 5px 5px;
-}
-table, table th, table td {
-border-left-style: none;
-border-right-style: none;
-}
-table thead, table tr.even {
-background-color: #f7f7f7;
-}
-p {
-margin: 0.5em 0;
-}
-blockquote {
-background-color: #f6f6f6;
-padding: 0.25em 0.75em;
-}
-hr {
-border-style: solid;
-border: none;
-border-top: 1px solid #777;
-margin: 28px 0;
-}
-dl {
-margin-left: 0;
-}
-dl dd {
-margin-bottom: 13px;
-margin-left: 13px;
-}
-dl dt {
-font-weight: bold;
-}
-ul {
-margin-top: 0;
-}
-ul li {
-list-style: circle outside;
-}
-ul ul {
-margin-bottom: 0;
-}
-pre, code {
-background-color: #f7f7f7;
-border-radius: 3px;
-color: #333;
-white-space: pre-wrap; 
-}
-pre {
-border-radius: 3px;
-margin: 5px 0px 10px 0px;
-padding: 10px;
-}
-pre:not([class]) {
-background-color: #f7f7f7;
-}
-code {
-font-family: Consolas, Monaco, 'Courier New', monospace;
-font-size: 85%;
-}
-p > code, li > code {
-padding: 2px 0px;
-}
-div.figure {
-text-align: center;
-}
-img {
-background-color: #FFFFFF;
-padding: 2px;
-border: 1px solid #DDDDDD;
-border-radius: 3px;
-border: 1px solid #CCCCCC;
-margin: 0 5px;
-}
-h1 {
-margin-top: 0;
-font-size: 35px;
-line-height: 40px;
-}
-h2 {
-border-bottom: 4px solid #f7f7f7;
-padding-top: 10px;
-padding-bottom: 2px;
-font-size: 145%;
-}
-h3 {
-border-bottom: 2px solid #f7f7f7;
-padding-top: 10px;
-font-size: 120%;
-}
-h4 {
-border-bottom: 1px solid #f7f7f7;
-margin-left: 8px;
-font-size: 105%;
-}
-h5, h6 {
-border-bottom: 1px solid #ccc;
-font-size: 105%;
-}
-a {
-color: #0033dd;
-text-decoration: none;
-}
-a:hover {
-color: #6666ff; }
-a:visited {
-color: #800080; }
-a:visited:hover {
-color: #BB00BB; }
-a[href^="http:"] {
-text-decoration: underline; }
-a[href^="https:"] {
-text-decoration: underline; }
 
-code > span.kw { color: #555; font-weight: bold; } 
-code > span.dt { color: #902000; } 
-code > span.dv { color: #40a070; } 
-code > span.bn { color: #d14; } 
-code > span.fl { color: #d14; } 
-code > span.ch { color: #d14; } 
-code > span.st { color: #d14; } 
-code > span.co { color: #888888; font-style: italic; } 
-code > span.ot { color: #007020; } 
-code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
-</style>
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
 
 
 
@@ -304,9 +133,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <h1 class="title toc-ignore">Simulation Tools Provided With the Selectboost Package</h1>
 <h4 class="author">Frédéric Bertrand and Myriam Maumy-Bertrand</h4>
 <address class="author_afil">
-Université de Strasbourg and CNRS<br><a class="author_email" href="mailto:#"><a href="mailto:frederic.bertrand@math.unistra.fr" class="email">frederic.bertrand@math.unistra.fr</a></a>
+Université de Strasbourg and CNRSIRMA, labex IRMIA<br><a class="author_email" href="mailto:#"><a href="mailto:frederic.bertrand@math.unistra.fr" class="email">frederic.bertrand@math.unistra.fr</a></a>
 </address>
-<h4 class="date">2020-02-23</h4>
+<h4 class="date">2021-03-20</h4>
 
 
 
@@ -314,7 +143,7 @@ Université de Strasbourg and CNRS<br><a class="author_email" href="mailto:#"><a
 <h1>Contents</h1>
 <p>This vignette details the simulations tools provided with the selectboost package by providing five examples of use.</p>
 <p>If you are a Linux/Unix or a Macos user, you can install a version of SelectBoost with support for <code>doMC</code> from <a href="https://github.com">github</a> with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;fbertran/SelectBoost&quot;</span>, <span class="dt">ref =</span> <span class="st">&quot;doMC&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;fbertran/SelectBoost&quot;</span>, <span class="at">ref =</span> <span class="st">&quot;doMC&quot;</span>)</span></code></pre></div>
 </div>
 <div id="first-example" class="section level1">
 <h1>First example</h1>
@@ -332,105 +161,105 @@ Université de Strasbourg and CNRS<br><a class="author_email" href="mailto:#"><a
 <div id="correlation-structure" class="section level2">
 <h2>Correlation structure</h2>
 <p>The correlation structure of the explanatory variables of the dataset is provided by <code>group</code> and the intra-group Pearson correlation value for each of the groups by <code>cor_group</code>. A value must be provided even for single variable groups and the number of variables is length of the <code>group</code> vector. Use the <code>simulation_cor</code> function to create the correlation matrix (<code>CM</code>).</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">library</span>(SelectBoost)</a>
-<a class="sourceLine" id="cb2-2" title="2">group&lt;-<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">9</span>,<span class="dv">1</span>) <span class="co">#10 variables</span></a>
-<a class="sourceLine" id="cb2-3" title="3">cor_group&lt;-<span class="kw">rep</span>(<span class="fl">0.95</span>,<span class="dv">9</span>)</a>
-<a class="sourceLine" id="cb2-4" title="4">CM&lt;-<span class="kw">simulation_cor</span>(group,cor_group)</a>
-<a class="sourceLine" id="cb2-5" title="5">CM</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SelectBoost)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>group<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>,<span class="dv">1</span>) <span class="co">#10 variables</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>cor_group<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="fl">0.95</span>,<span class="dv">9</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>CM<span class="ot">&lt;-</span><span class="fu">simulation_cor</span>(group,cor_group)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>CM</span></code></pre></div>
 </div>
 <div id="explanatory-dataset-generation" class="section level2">
 <h2>Explanatory dataset generation</h2>
 <p>Then generation of an explanatory dataset with <span class="math inline">\(N=10\)</span> observations is made by the <code>simulation_X</code> function.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">set.seed</span>(<span class="dv">3141</span>)</a>
-<a class="sourceLine" id="cb3-2" title="2">N&lt;-<span class="dv">10</span></a>
-<a class="sourceLine" id="cb3-3" title="3">X&lt;-<span class="kw">simulation_X</span>(N,CM)</a>
-<a class="sourceLine" id="cb3-4" title="4">X</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3141</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>N<span class="ot">&lt;-</span><span class="dv">10</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>X<span class="ot">&lt;-</span><span class="fu">simulation_X</span>(N,CM)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>X</span></code></pre></div>
 </div>
 <div id="response-derivation" class="section level2">
 <h2>Response derivation</h2>
 <p>A response can now be added to the dataset by the <code>simulation_Data</code> function. We have to specifiy the support of the response, i.e. the explanatory variables that will be used in the linear model created to compute the response. The support is given by the <code>supp</code> vector whose entries are either <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>. The length of the <code>supp</code> vector must be equal to the number of explanatory variables and if the <span class="math inline">\(i\)</span>entry is equal to <span class="math inline">\(1\)</span>, it means that the <span class="math inline">\(i\)</span>variable will be used to derive the response value, whereas if the <span class="math inline">\(i\)</span>entry is equal to <span class="math inline">\(0\)</span>, it means that the <span class="math inline">\(i\)</span>variable will not be used to derive the response value (<code>beta&lt;-rep(0,length(supp))</code>). The values of the coefficients for the explanatory variables that are in the support of the response are random (either absolute value and sign) and given by <code>beta[which(supp==1)]&lt;-runif(sum(supp),minB,maxB)*(rbinom(sum(supp),1,.5)*2-1)</code>. Hence, the user can specify their minimal absolute value with the <code>minB</code> option and their maximal absolute value with the <code>maxB</code> option. The <code>stn</code> option is a scaling factor for the noise added to the response vector (<code>(t(beta)%*%var(X)%*%beta)/stn</code>, with <code>X</code> the matrix of explanatory variables). The higher the <code>stn</code> value, the smaller the noise: for instance for a given <code>X</code> dataset, an <code>stn</code> value <span class="math inline">\(\alpha\)</span> times larger will result in a noise exactly <span class="math inline">\(\sqrt{\alpha}\)</span> times smaller.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">set.seed</span>(<span class="dv">3141</span>)</a>
-<a class="sourceLine" id="cb4-2" title="2">supp&lt;-<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb4-3" title="3">minB&lt;-<span class="dv">1</span></a>
-<a class="sourceLine" id="cb4-4" title="4">maxB&lt;-<span class="dv">2</span></a>
-<a class="sourceLine" id="cb4-5" title="5">stn&lt;-<span class="dv">50</span></a>
-<a class="sourceLine" id="cb4-6" title="6">firstdataset=<span class="kw">simulation_DATA</span>(X,supp,minB,maxB,stn)</a>
-<a class="sourceLine" id="cb4-7" title="7">firstdataset</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3141</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>supp<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>minB<span class="ot">&lt;-</span><span class="dv">1</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>maxB<span class="ot">&lt;-</span><span class="dv">2</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>stn<span class="ot">&lt;-</span><span class="dv">50</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>firstdataset<span class="ot">=</span><span class="fu">simulation_DATA</span>(X,supp,minB,maxB,stn)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>firstdataset</span></code></pre></div>
 </div>
 <div id="multiple-datasets-and-checks" class="section level2">
 <h2>Multiple datasets and checks</h2>
 <p>To generate multiple datasets, repeat steps 2 and 3, for instance use a <code>for</code> loop. We create <span class="math inline">\(NDatasets=200\)</span> datasets and assign them to the objects <code>DATA_exemple1_nb_1</code> to <code>DATA_exemple1_nb_200</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">set.seed</span>(<span class="dv">3141</span>)</a>
-<a class="sourceLine" id="cb5-2" title="2">NDatasets=<span class="dv">200</span></a>
-<a class="sourceLine" id="cb5-3" title="3"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>NDatasets){</a>
-<a class="sourceLine" id="cb5-4" title="4">X&lt;-<span class="kw">simulation_X</span>(N,CM)</a>
-<a class="sourceLine" id="cb5-5" title="5"><span class="kw">assign</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple1_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>),<span class="kw">simulation_DATA</span>(X,supp,minB,maxB,stn))</a>
-<a class="sourceLine" id="cb5-6" title="6">}</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3141</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>NDatasets<span class="ot">=</span><span class="dv">200</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>NDatasets){</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>X<span class="ot">&lt;-</span><span class="fu">simulation_X</span>(N,CM)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">assign</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple1_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>),<span class="fu">simulation_DATA</span>(X,supp,minB,maxB,stn))</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>We now check the correlation structure of the explanatory variable. First we compute the mean correlation matrix.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">corr_sum=<span class="kw">matrix</span>(<span class="dv">0</span>,<span class="kw">length</span>(group),<span class="kw">length</span>(group))</a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>NDatasets){</a>
-<a class="sourceLine" id="cb6-3" title="3">corr_sum=corr_sum<span class="op">+</span><span class="kw">cor</span>(<span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple1_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>X)</a>
-<a class="sourceLine" id="cb6-4" title="4">}</a>
-<a class="sourceLine" id="cb6-5" title="5">corr_mean=corr_sum<span class="op">/</span>NDatasets</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>corr_sum<span class="ot">=</span><span class="fu">matrix</span>(<span class="dv">0</span>,<span class="fu">length</span>(group),<span class="fu">length</span>(group))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>NDatasets){</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>corr_sum<span class="ot">=</span>corr_sum<span class="sc">+</span><span class="fu">cor</span>(<span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple1_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>X)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>corr_mean<span class="ot">=</span>corr_sum<span class="sc">/</span>NDatasets</span></code></pre></div>
 <p>Then we display and plot that the mean correlation matrix.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">corr_mean</a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="kw">plot</span>(<span class="kw">abs</span>(corr_mean))</a></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">coef_sum=<span class="kw">rep</span>(<span class="dv">0</span>,<span class="kw">length</span>(group))</a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="kw">names</span>(coef_sum)&lt;-<span class="kw">paste</span>(<span class="st">&quot;x&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(group),<span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</a>
-<a class="sourceLine" id="cb8-3" title="3">error_counter=<span class="dv">0</span></a>
-<a class="sourceLine" id="cb8-4" title="4"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>NDatasets){</a>
-<a class="sourceLine" id="cb8-5" title="5">tempdf=<span class="kw">data.frame</span>(<span class="kw">cbind</span>(<span class="dt">Y=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple1_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>Y,</a>
-<a class="sourceLine" id="cb8-6" title="6">                        <span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple1_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>X))</a>
-<a class="sourceLine" id="cb8-7" title="7">tempcoef=<span class="kw">coef</span>(<span class="kw">lm</span>(Y<span class="op">~</span>.<span class="op">-</span><span class="dv">1</span>,<span class="dt">data=</span>tempdf))</a>
-<a class="sourceLine" id="cb8-8" title="8"><span class="cf">if</span>(<span class="kw">is.null</span>(tempcoef)){</a>
-<a class="sourceLine" id="cb8-9" title="9"><span class="kw">cat</span>(<span class="st">&quot;Error in lm fit, skip coefficients</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
-<a class="sourceLine" id="cb8-10" title="10">error_counter=error_counter<span class="op">+</span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb8-11" title="11">  } <span class="cf">else</span>{</a>
-<a class="sourceLine" id="cb8-12" title="12">coef_sum=coef_sum<span class="op">+</span><span class="kw">abs</span>(tempcoef)</a>
-<a class="sourceLine" id="cb8-13" title="13">}</a>
-<a class="sourceLine" id="cb8-14" title="14">}</a>
-<a class="sourceLine" id="cb8-15" title="15">error_counter</a>
-<a class="sourceLine" id="cb8-16" title="16">coef_mean=coef_sum<span class="op">/</span>NDatasets</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>corr_mean</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">abs</span>(corr_mean))</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>coef_sum<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">length</span>(group))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(coef_sum)<span class="ot">&lt;-</span><span class="fu">paste</span>(<span class="st">&quot;x&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(group),<span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>error_counter<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>NDatasets){</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>tempdf<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">cbind</span>(<span class="at">Y=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple1_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>Y,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple1_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>X))</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>tempcoef<span class="ot">=</span><span class="fu">coef</span>(<span class="fu">lm</span>(Y<span class="sc">~</span>.<span class="sc">-</span><span class="dv">1</span>,<span class="at">data=</span>tempdf))</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">is.null</span>(tempcoef)){</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Error in lm fit, skip coefficients</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>error_counter<span class="ot">=</span>error_counter<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span>{</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>coef_sum<span class="ot">=</span>coef_sum<span class="sc">+</span><span class="fu">abs</span>(tempcoef)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>error_counter</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>coef_mean<span class="ot">=</span>coef_sum<span class="sc">/</span>NDatasets</span></code></pre></div>
 <p>All fits were sucessful. Then we display and plot that the mean coefficient vector values.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">coef_mean</a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="kw">barplot</span>(coef_mean)</a>
-<a class="sourceLine" id="cb9-3" title="3"><span class="kw">abline</span>(<span class="dt">h=</span>(minB<span class="op">+</span>maxB)<span class="op">/</span><span class="dv">2</span>,<span class="dt">lwd=</span><span class="dv">2</span>,<span class="dt">lty=</span><span class="dv">2</span>,<span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>coef_mean</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(coef_mean)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span>(minB<span class="sc">+</span>maxB)<span class="sc">/</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
 <p>Reduce the noise in the response for the new responses by a factor <span class="math inline">\(\sqrt{5000/50}=10\)</span>. <span class="math inline">\(1/stn\cdot \beta_{support}^t\mathrm{Var}(X)\beta_{support}\)</span> where <span class="math inline">\(\beta_{support}\)</span> is the vector of coefficients wh</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">set.seed</span>(<span class="dv">3141</span>)</a>
-<a class="sourceLine" id="cb10-2" title="2">stn &lt;-<span class="st"> </span><span class="dv">5000</span></a>
-<a class="sourceLine" id="cb10-3" title="3"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>NDatasets){</a>
-<a class="sourceLine" id="cb10-4" title="4">X&lt;-<span class="kw">simulation_X</span>(N,CM)</a>
-<a class="sourceLine" id="cb10-5" title="5"><span class="kw">assign</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple1_bis_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>),<span class="kw">simulation_DATA</span>(X,supp,minB,maxB,stn))</a>
-<a class="sourceLine" id="cb10-6" title="6">}</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3141</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>stn <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>NDatasets){</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>X<span class="ot">&lt;-</span><span class="fu">simulation_X</span>(N,CM)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">assign</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple1_bis_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>),<span class="fu">simulation_DATA</span>(X,supp,minB,maxB,stn))</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Since it is the same explanatory dataset for response generation, we can compare the <span class="math inline">\(\sigma\)</span> between those <span class="math inline">\(NDatasets=200\)</span> datasets.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">stn_ratios=<span class="kw">rep</span>(<span class="dv">0</span>,NDatasets)</a>
-<a class="sourceLine" id="cb11-2" title="2"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>NDatasets){</a>
-<a class="sourceLine" id="cb11-3" title="3">stn_ratios[i]&lt;-<span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple1_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>sigma<span class="op">/</span></a>
-<a class="sourceLine" id="cb11-4" title="4"><span class="st">  </span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple1_bis_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>sigma</a>
-<a class="sourceLine" id="cb11-5" title="5">}</a>
-<a class="sourceLine" id="cb11-6" title="6"><span class="kw">all</span>(<span class="kw">sapply</span>(stn_ratios,all.equal,<span class="dv">10</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>stn_ratios<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">0</span>,NDatasets)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>NDatasets){</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>stn_ratios[i]<span class="ot">&lt;-</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple1_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>sigma<span class="sc">/</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple1_bis_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>sigma</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(<span class="fu">sapply</span>(stn_ratios,all.equal,<span class="dv">10</span>))</span></code></pre></div>
 <p>All the ratios are equal to 10 as anticipated.</p>
 <p>Since, the correlation structure is the same as before, we do not need to check it again. As befor, we infer the coefficients values of a linear model using the <code>lm</code> function.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">coef_sum_bis=<span class="kw">rep</span>(<span class="dv">0</span>,<span class="kw">length</span>(group))</a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="kw">names</span>(coef_sum_bis)&lt;-<span class="kw">paste</span>(<span class="st">&quot;x&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(group),<span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</a>
-<a class="sourceLine" id="cb12-3" title="3">error_counter_bis=<span class="dv">0</span></a>
-<a class="sourceLine" id="cb12-4" title="4"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>NDatasets){</a>
-<a class="sourceLine" id="cb12-5" title="5">tempdf=<span class="kw">data.frame</span>(<span class="kw">cbind</span>(<span class="dt">Y=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple1_bis_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>Y,</a>
-<a class="sourceLine" id="cb12-6" title="6">                        <span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple1_bis_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>X))</a>
-<a class="sourceLine" id="cb12-7" title="7">tempcoef=<span class="kw">coef</span>(<span class="kw">lm</span>(Y<span class="op">~</span>.<span class="op">-</span><span class="dv">1</span>,<span class="dt">data=</span>tempdf))</a>
-<a class="sourceLine" id="cb12-8" title="8"><span class="cf">if</span>(<span class="kw">is.null</span>(tempcoef)){</a>
-<a class="sourceLine" id="cb12-9" title="9"><span class="kw">cat</span>(<span class="st">&quot;Error in lm fit, skip coefficients</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
-<a class="sourceLine" id="cb12-10" title="10">error_counter_bis=error_counte_bisr<span class="op">+</span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb12-11" title="11">  } <span class="cf">else</span>{</a>
-<a class="sourceLine" id="cb12-12" title="12">coef_sum_bis=coef_sum_bis<span class="op">+</span><span class="kw">abs</span>(tempcoef)</a>
-<a class="sourceLine" id="cb12-13" title="13">}</a>
-<a class="sourceLine" id="cb12-14" title="14">}</a>
-<a class="sourceLine" id="cb12-15" title="15">error_counter_bis</a>
-<a class="sourceLine" id="cb12-16" title="16">coef_mean_bis=coef_sum_bis<span class="op">/</span>NDatasets</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>coef_sum_bis<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">length</span>(group))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(coef_sum_bis)<span class="ot">&lt;-</span><span class="fu">paste</span>(<span class="st">&quot;x&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(group),<span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>error_counter_bis<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>NDatasets){</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>tempdf<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">cbind</span>(<span class="at">Y=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple1_bis_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>Y,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple1_bis_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>X))</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>tempcoef<span class="ot">=</span><span class="fu">coef</span>(<span class="fu">lm</span>(Y<span class="sc">~</span>.<span class="sc">-</span><span class="dv">1</span>,<span class="at">data=</span>tempdf))</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">is.null</span>(tempcoef)){</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Error in lm fit, skip coefficients</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>error_counter_bis<span class="ot">=</span>error_counte_bisr<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span>{</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>coef_sum_bis<span class="ot">=</span>coef_sum_bis<span class="sc">+</span><span class="fu">abs</span>(tempcoef)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>error_counter_bis</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>coef_mean_bis<span class="ot">=</span>coef_sum_bis<span class="sc">/</span>NDatasets</span></code></pre></div>
 <p>All fits were sucessful. Then we display and plot that the mean coefficient vector values. As expected, the noise reduction enhances the retrieval of the <code>true</code> mean coefficient absolute values by the models.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">coef_mean_bis</a>
-<a class="sourceLine" id="cb13-2" title="2"><span class="kw">barplot</span>(coef_mean_bis)</a>
-<a class="sourceLine" id="cb13-3" title="3"><span class="kw">abline</span>(<span class="dt">h=</span>(minB<span class="op">+</span>maxB)<span class="op">/</span><span class="dv">2</span>,<span class="dt">lwd=</span><span class="dv">2</span>,<span class="dt">lty=</span><span class="dv">2</span>,<span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>coef_mean_bis</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(coef_mean_bis)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span>(minB<span class="sc">+</span>maxB)<span class="sc">/</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
 <p>The simulation process looks sucessfull. What are the confidence indices for those variables?</p>
 </div>
 </div>
@@ -446,75 +275,75 @@ Université de Strasbourg and CNRS<br><a class="author_email" href="mailto:#"><a
 </div>
 <div id="correlation-structure-1" class="section level2">
 <h2>Correlation structure</h2>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">group&lt;-<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">50</span>) <span class="co">#50 variables</span></a>
-<a class="sourceLine" id="cb14-2" title="2">cor_group&lt;-<span class="kw">rep</span>(<span class="fl">0.5</span>,<span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>group<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">50</span>) <span class="co">#50 variables</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>cor_group<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="fl">0.5</span>,<span class="dv">1</span>)</span></code></pre></div>
 </div>
 <div id="explanatory-variables-and-response" class="section level2">
 <h2>Explanatory variables and response</h2>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">set.seed</span>(<span class="dv">3141</span>)</a>
-<a class="sourceLine" id="cb15-2" title="2">N&lt;-<span class="dv">20</span></a>
-<a class="sourceLine" id="cb15-3" title="3">supp&lt;-<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">45</span>))</a>
-<a class="sourceLine" id="cb15-4" title="4">minB&lt;-<span class="dv">1</span></a>
-<a class="sourceLine" id="cb15-5" title="5">maxB&lt;-<span class="dv">2</span></a>
-<a class="sourceLine" id="cb15-6" title="6">stn&lt;-<span class="dv">50</span></a>
-<a class="sourceLine" id="cb15-7" title="7"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">200</span>){</a>
-<a class="sourceLine" id="cb15-8" title="8">C&lt;-<span class="kw">simulation_cor</span>(group,cor_group)</a>
-<a class="sourceLine" id="cb15-9" title="9">X&lt;-<span class="kw">simulation_X</span>(N,C)</a>
-<a class="sourceLine" id="cb15-10" title="10"><span class="kw">assign</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple2_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>),<span class="kw">simulation_DATA</span>(X,supp,minB,maxB,stn))</a>
-<a class="sourceLine" id="cb15-11" title="11">}</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3141</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>N<span class="ot">&lt;-</span><span class="dv">20</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>supp<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">45</span>))</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>minB<span class="ot">&lt;-</span><span class="dv">1</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>maxB<span class="ot">&lt;-</span><span class="dv">2</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>stn<span class="ot">&lt;-</span><span class="dv">50</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>){</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>C<span class="ot">&lt;-</span><span class="fu">simulation_cor</span>(group,cor_group)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>X<span class="ot">&lt;-</span><span class="fu">simulation_X</span>(N,C)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="fu">assign</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple2_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>),<span class="fu">simulation_DATA</span>(X,supp,minB,maxB,stn))</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="checks" class="section level2">
 <h2>Checks</h2>
 <p>We now check the correlation structure of the explanatory variable. First we compute the mean correlation matrix.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">corr_sum=<span class="kw">matrix</span>(<span class="dv">0</span>,<span class="kw">length</span>(group),<span class="kw">length</span>(group))</a>
-<a class="sourceLine" id="cb16-2" title="2"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>NDatasets){</a>
-<a class="sourceLine" id="cb16-3" title="3">corr_sum=corr_sum<span class="op">+</span><span class="kw">cor</span>(<span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple2_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>X)</a>
-<a class="sourceLine" id="cb16-4" title="4">}</a>
-<a class="sourceLine" id="cb16-5" title="5">corr_mean=corr_sum<span class="op">/</span>NDatasets</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>corr_sum<span class="ot">=</span><span class="fu">matrix</span>(<span class="dv">0</span>,<span class="fu">length</span>(group),<span class="fu">length</span>(group))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>NDatasets){</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>corr_sum<span class="ot">=</span>corr_sum<span class="sc">+</span><span class="fu">cor</span>(<span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple2_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>X)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>corr_mean<span class="ot">=</span>corr_sum<span class="sc">/</span>NDatasets</span></code></pre></div>
 <p>Then we display and plot that the mean correlation matrix.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1">corr_mean[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a>
-<a class="sourceLine" id="cb17-2" title="2"><span class="kw">plot</span>(<span class="kw">abs</span>(corr_mean))</a></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">coef_sum=<span class="kw">rep</span>(<span class="dv">0</span>,<span class="kw">length</span>(group))</a>
-<a class="sourceLine" id="cb18-2" title="2">coef_lasso_sum=<span class="kw">rep</span>(<span class="dv">0</span>,<span class="kw">length</span>(group))</a>
-<a class="sourceLine" id="cb18-3" title="3"><span class="kw">names</span>(coef_sum)&lt;-<span class="kw">paste</span>(<span class="st">&quot;x&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(group),<span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</a>
-<a class="sourceLine" id="cb18-4" title="4"><span class="kw">names</span>(coef_lasso_sum)&lt;-<span class="kw">paste</span>(<span class="st">&quot;x&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(group),<span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</a>
-<a class="sourceLine" id="cb18-5" title="5">error_counter=<span class="dv">0</span></a>
-<a class="sourceLine" id="cb18-6" title="6"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>NDatasets){</a>
-<a class="sourceLine" id="cb18-7" title="7">tempdf=<span class="kw">data.frame</span>(<span class="kw">cbind</span>(<span class="dt">Y=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple2_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>Y,</a>
-<a class="sourceLine" id="cb18-8" title="8">                        <span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple2_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>X))</a>
-<a class="sourceLine" id="cb18-9" title="9">tempcoef=<span class="kw">coef</span>(<span class="kw">lm</span>(Y<span class="op">~</span>.<span class="op">-</span><span class="dv">1</span>,<span class="dt">data=</span>tempdf))</a>
-<a class="sourceLine" id="cb18-10" title="10"><span class="kw">require</span>(lars)</a>
-<a class="sourceLine" id="cb18-11" title="11">lasso<span class="fl">.1</span> &lt;-<span class="st"> </span>lars<span class="op">::</span><span class="kw">lars</span>(<span class="dt">x=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple2_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>X,</a>
-<a class="sourceLine" id="cb18-12" title="12">              <span class="dt">y=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple2_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>Y, <span class="dt">type=</span><span class="st">&quot;lasso&quot;</span>, </a>
-<a class="sourceLine" id="cb18-13" title="13">              <span class="dt">trace=</span><span class="ot">FALSE</span>, <span class="dt">normalize=</span><span class="ot">FALSE</span>, <span class="dt">intercept =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb18-14" title="14"><span class="co"># cv.lars() uses crossvalidation to estimate optimal position in path</span></a>
-<a class="sourceLine" id="cb18-15" title="15">cv.lasso<span class="fl">.1</span> &lt;-<span class="st"> </span>lars<span class="op">::</span><span class="kw">cv.lars</span>(<span class="dt">x=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple2_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>X,</a>
-<a class="sourceLine" id="cb18-16" title="16">              <span class="dt">y=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple2_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>Y, </a>
-<a class="sourceLine" id="cb18-17" title="17">              <span class="dt">plot.it=</span><span class="ot">FALSE</span>, <span class="dt">type=</span><span class="st">&quot;lasso&quot;</span>)</a>
-<a class="sourceLine" id="cb18-18" title="18"><span class="co"># Use the &quot;+1SE rule&quot; to find best model: </span></a>
-<a class="sourceLine" id="cb18-19" title="19"><span class="co">#    Take the min CV and add its SE (&quot;limit&quot;).  </span></a>
-<a class="sourceLine" id="cb18-20" title="20"><span class="co">#    Find smallest model that has its own CV within this limit (at &quot;s.cv.1&quot;)</span></a>
-<a class="sourceLine" id="cb18-21" title="21">limit &lt;-<span class="st"> </span><span class="kw">min</span>(cv.lasso<span class="fl">.1</span><span class="op">$</span>cv) <span class="op">+</span><span class="st"> </span>cv.lasso<span class="fl">.1</span><span class="op">$</span>cv.error[<span class="kw">which.min</span>(cv.lasso<span class="fl">.1</span><span class="op">$</span>cv)]</a>
-<a class="sourceLine" id="cb18-22" title="22">s.cv<span class="fl">.1</span> &lt;-<span class="st"> </span>cv.lasso<span class="fl">.1</span><span class="op">$</span>index[<span class="kw">min</span>(<span class="kw">which</span>(cv.lasso<span class="fl">.1</span><span class="op">$</span>cv <span class="op">&lt;</span><span class="st"> </span>limit))]</a>
-<a class="sourceLine" id="cb18-23" title="23"><span class="co"># Print out coefficients at optimal s.</span></a>
-<a class="sourceLine" id="cb18-24" title="24">coef_lasso_sum=coef_lasso_sum<span class="op">+</span><span class="kw">abs</span>(<span class="kw">coef</span>(lasso<span class="fl">.1</span>, <span class="dt">s=</span>s.cv<span class="fl">.1</span>, <span class="dt">mode=</span><span class="st">&quot;fraction&quot;</span>))</a>
-<a class="sourceLine" id="cb18-25" title="25"><span class="cf">if</span>(<span class="kw">is.null</span>(tempcoef)){</a>
-<a class="sourceLine" id="cb18-26" title="26"><span class="kw">cat</span>(<span class="st">&quot;Error in lm fit, skip coefficients</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
-<a class="sourceLine" id="cb18-27" title="27">error_counter=error_counter<span class="op">+</span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb18-28" title="28">  } <span class="cf">else</span>{</a>
-<a class="sourceLine" id="cb18-29" title="29">coef_sum=coef_sum<span class="op">+</span><span class="kw">abs</span>(tempcoef)</a>
-<a class="sourceLine" id="cb18-30" title="30">}</a>
-<a class="sourceLine" id="cb18-31" title="31">}</a>
-<a class="sourceLine" id="cb18-32" title="32">error_counter</a>
-<a class="sourceLine" id="cb18-33" title="33">coef_mean=coef_sum<span class="op">/</span>NDatasets</a>
-<a class="sourceLine" id="cb18-34" title="34">coef_lasso_mean=coef_lasso_sum<span class="op">/</span>NDatasets</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>corr_mean[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">abs</span>(corr_mean))</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>coef_sum<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">length</span>(group))</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>coef_lasso_sum<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">length</span>(group))</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(coef_sum)<span class="ot">&lt;-</span><span class="fu">paste</span>(<span class="st">&quot;x&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(group),<span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(coef_lasso_sum)<span class="ot">&lt;-</span><span class="fu">paste</span>(<span class="st">&quot;x&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(group),<span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>error_counter<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>NDatasets){</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>tempdf<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">cbind</span>(<span class="at">Y=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple2_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>Y,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple2_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>X))</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>tempcoef<span class="ot">=</span><span class="fu">coef</span>(<span class="fu">lm</span>(Y<span class="sc">~</span>.<span class="sc">-</span><span class="dv">1</span>,<span class="at">data=</span>tempdf))</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(lars)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>lasso<span class="fl">.1</span> <span class="ot">&lt;-</span> lars<span class="sc">::</span><span class="fu">lars</span>(<span class="at">x=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple2_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>X,</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">y=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple2_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>Y, <span class="at">type=</span><span class="st">&quot;lasso&quot;</span>, </span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">trace=</span><span class="cn">FALSE</span>, <span class="at">normalize=</span><span class="cn">FALSE</span>, <span class="at">intercept =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co"># cv.lars() uses crossvalidation to estimate optimal position in path</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>cv.lasso<span class="fl">.1</span> <span class="ot">&lt;-</span> lars<span class="sc">::</span><span class="fu">cv.lars</span>(<span class="at">x=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple2_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>X,</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>              <span class="at">y=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple2_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>Y, </span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>              <span class="at">plot.it=</span><span class="cn">FALSE</span>, <span class="at">type=</span><span class="st">&quot;lasso&quot;</span>)</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the &quot;+1SE rule&quot; to find best model: </span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co">#    Take the min CV and add its SE (&quot;limit&quot;).  </span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co">#    Find smallest model that has its own CV within this limit (at &quot;s.cv.1&quot;)</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>limit <span class="ot">&lt;-</span> <span class="fu">min</span>(cv.lasso<span class="fl">.1</span><span class="sc">$</span>cv) <span class="sc">+</span> cv.lasso<span class="fl">.1</span><span class="sc">$</span>cv.error[<span class="fu">which.min</span>(cv.lasso<span class="fl">.1</span><span class="sc">$</span>cv)]</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>s.cv<span class="fl">.1</span> <span class="ot">&lt;-</span> cv.lasso<span class="fl">.1</span><span class="sc">$</span>index[<span class="fu">min</span>(<span class="fu">which</span>(cv.lasso<span class="fl">.1</span><span class="sc">$</span>cv <span class="sc">&lt;</span> limit))]</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Print out coefficients at optimal s.</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>coef_lasso_sum<span class="ot">=</span>coef_lasso_sum<span class="sc">+</span><span class="fu">abs</span>(<span class="fu">coef</span>(lasso<span class="fl">.1</span>, <span class="at">s=</span>s.cv<span class="fl">.1</span>, <span class="at">mode=</span><span class="st">&quot;fraction&quot;</span>))</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">is.null</span>(tempcoef)){</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Error in lm fit, skip coefficients</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>error_counter<span class="ot">=</span>error_counter<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span>{</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>coef_sum<span class="ot">=</span>coef_sum<span class="sc">+</span><span class="fu">abs</span>(tempcoef)</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>error_counter</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>coef_mean<span class="ot">=</span>coef_sum<span class="sc">/</span>NDatasets</span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>coef_lasso_mean<span class="ot">=</span>coef_lasso_sum<span class="sc">/</span>NDatasets</span></code></pre></div>
 <p>With regular least squares and lasso estimators all fits were sucessful, yet only 20 variables coefficients could be estimated with regular least squares estimates for the linear model. Then we display and plot that the mean coefficient vector values for the least squares estimates.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">coef_mean</a>
-<a class="sourceLine" id="cb19-2" title="2"><span class="kw">barplot</span>(coef_mean)</a>
-<a class="sourceLine" id="cb19-3" title="3"><span class="kw">abline</span>(<span class="dt">h=</span>(minB<span class="op">+</span>maxB)<span class="op">/</span><span class="dv">2</span>,<span class="dt">lwd=</span><span class="dv">2</span>,<span class="dt">lty=</span><span class="dv">2</span>,<span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">coef_lasso_mean</a>
-<a class="sourceLine" id="cb20-2" title="2"><span class="kw">barplot</span>(coef_lasso_mean,<span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">1.5</span>))</a>
-<a class="sourceLine" id="cb20-3" title="3"><span class="kw">abline</span>(<span class="dt">h=</span>(minB<span class="op">+</span>maxB)<span class="op">/</span><span class="dv">2</span>,<span class="dt">lwd=</span><span class="dv">2</span>,<span class="dt">lty=</span><span class="dv">2</span>,<span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>coef_mean</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(coef_mean)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span>(minB<span class="sc">+</span>maxB)<span class="sc">/</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>coef_lasso_mean</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(coef_lasso_mean,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">1.5</span>))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span>(minB<span class="sc">+</span>maxB)<span class="sc">/</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
 <p>The simulation process looks sucessfull: the lasso estimates retrives mostly the correct variables, yet the other ones are also selected sometimes. What are the confidence indices for those variables?</p>
 </div>
 </div>
@@ -527,76 +356,76 @@ Université de Strasbourg and CNRS<br><a class="author_email" href="mailto:#"><a
 <div id="data-and-response-generations" class="section level2">
 <h2>Data and response generations</h2>
 <p>First retrieve the datasets and get the differentially expressed probesets. Run the code to get additionnal plots.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">require</span>(CascadeData)</a>
-<a class="sourceLine" id="cb21-2" title="2"><span class="kw">data</span>(micro_S)</a>
-<a class="sourceLine" id="cb21-3" title="3"><span class="kw">data</span>(micro_US)</a>
-<a class="sourceLine" id="cb21-4" title="4"><span class="kw">require</span>(Cascade)</a>
-<a class="sourceLine" id="cb21-5" title="5">micro_US&lt;-<span class="kw">as.micro_array</span>(micro_US,<span class="kw">c</span>(<span class="dv">60</span>,<span class="dv">90</span>,<span class="dv">240</span>,<span class="dv">390</span>),<span class="dv">6</span>)</a>
-<a class="sourceLine" id="cb21-6" title="6">micro_S&lt;-<span class="kw">as.micro_array</span>(micro_S,<span class="kw">c</span>(<span class="dv">60</span>,<span class="dv">90</span>,<span class="dv">240</span>,<span class="dv">390</span>),<span class="dv">6</span>)</a>
-<a class="sourceLine" id="cb21-7" title="7">S&lt;-<span class="kw">geneSelection</span>(<span class="kw">list</span>(micro_S,micro_US),<span class="kw">list</span>(<span class="st">&quot;condition&quot;</span>,<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),<span class="dv">1</span>),<span class="op">-</span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb21-8" title="8">Sel&lt;-micro_S<span class="op">@</span>microarray[S<span class="op">@</span>name,]</a></code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="kw">summary</span>(S)</a></code></pre></div>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">plot</span>(S)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(CascadeData)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(micro_S)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(micro_US)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(Cascade)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>micro_US<span class="ot">&lt;-</span><span class="fu">as.micro_array</span>(micro_US,<span class="fu">c</span>(<span class="dv">60</span>,<span class="dv">90</span>,<span class="dv">240</span>,<span class="dv">390</span>),<span class="dv">6</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>micro_S<span class="ot">&lt;-</span><span class="fu">as.micro_array</span>(micro_S,<span class="fu">c</span>(<span class="dv">60</span>,<span class="dv">90</span>,<span class="dv">240</span>,<span class="dv">390</span>),<span class="dv">6</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>S<span class="ot">&lt;-</span><span class="fu">geneSelection</span>(<span class="fu">list</span>(micro_S,micro_US),<span class="fu">list</span>(<span class="st">&quot;condition&quot;</span>,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),<span class="dv">1</span>),<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>Sel<span class="ot">&lt;-</span>micro_S<span class="sc">@</span>microarray[S<span class="sc">@</span>name,]</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(S)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(S)</span></code></pre></div>
 <p>Generates the datasets sampling for each of them 100 probesets expressions among the 1650 that were selected and linking the response to the expressions of the first five probesets.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">set.seed</span>(<span class="dv">3141</span>)</a>
-<a class="sourceLine" id="cb24-2" title="2">supp&lt;-<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">95</span>))</a>
-<a class="sourceLine" id="cb24-3" title="3">minB&lt;-<span class="dv">1</span></a>
-<a class="sourceLine" id="cb24-4" title="4">maxB&lt;-<span class="dv">2</span></a>
-<a class="sourceLine" id="cb24-5" title="5">stn&lt;-<span class="dv">50</span></a>
-<a class="sourceLine" id="cb24-6" title="6">NDatasets=<span class="dv">200</span></a>
-<a class="sourceLine" id="cb24-7" title="7"></a>
-<a class="sourceLine" id="cb24-8" title="8"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>NDatasets){</a>
-<a class="sourceLine" id="cb24-9" title="9">X&lt;-<span class="kw">t</span>(<span class="kw">as.matrix</span>(Sel[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(Sel),<span class="dv">100</span>),]))</a>
-<a class="sourceLine" id="cb24-10" title="10">Xnorm&lt;-<span class="kw">t</span>(<span class="kw">t</span>(X)<span class="op">/</span><span class="kw">sqrt</span>(<span class="kw">colSums</span>(X<span class="op">*</span>X)))</a>
-<a class="sourceLine" id="cb24-11" title="11"><span class="kw">assign</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple3_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>),<span class="kw">simulation_DATA</span>(Xnorm,supp,minB,maxB,stn))</a>
-<a class="sourceLine" id="cb24-12" title="12">}</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3141</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>supp<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">95</span>))</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>minB<span class="ot">&lt;-</span><span class="dv">1</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>maxB<span class="ot">&lt;-</span><span class="dv">2</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>stn<span class="ot">&lt;-</span><span class="dv">50</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>NDatasets<span class="ot">=</span><span class="dv">200</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>NDatasets){</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>X<span class="ot">&lt;-</span><span class="fu">t</span>(<span class="fu">as.matrix</span>(Sel[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(Sel),<span class="dv">100</span>),]))</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>Xnorm<span class="ot">&lt;-</span><span class="fu">t</span>(<span class="fu">t</span>(X)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">colSums</span>(X<span class="sc">*</span>X)))</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="fu">assign</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple3_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>),<span class="fu">simulation_DATA</span>(Xnorm,supp,minB,maxB,stn))</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="checks-1" class="section level2">
 <h2>Checks</h2>
 <p>Here are the plots of an example of correlation structure, namely for <code>DATA_exemple3_nb_200$X</code>. Run the code to get the graphics.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="kw">plot</span>(<span class="kw">cor</span>(Xnorm))</a>
-<a class="sourceLine" id="cb25-2" title="2">mixOmics<span class="op">::</span><span class="kw">cim</span>(<span class="kw">cor</span>(Xnorm))</a></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1">coef_sum=<span class="kw">rep</span>(<span class="dv">0</span>,<span class="kw">length</span>(supp))</a>
-<a class="sourceLine" id="cb26-2" title="2">coef_lasso_sum=<span class="kw">rep</span>(<span class="dv">0</span>,<span class="kw">length</span>(supp))</a>
-<a class="sourceLine" id="cb26-3" title="3"><span class="kw">names</span>(coef_sum)&lt;-<span class="kw">paste</span>(<span class="st">&quot;x&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(supp),<span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</a>
-<a class="sourceLine" id="cb26-4" title="4"><span class="kw">names</span>(coef_lasso_sum)&lt;-<span class="kw">paste</span>(<span class="st">&quot;x&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(supp),<span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</a>
-<a class="sourceLine" id="cb26-5" title="5">error_counter=<span class="dv">0</span></a>
-<a class="sourceLine" id="cb26-6" title="6"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>NDatasets){</a>
-<a class="sourceLine" id="cb26-7" title="7">tempdf=<span class="kw">data.frame</span>(<span class="kw">cbind</span>(<span class="dt">Y=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple3_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>Y,</a>
-<a class="sourceLine" id="cb26-8" title="8">                        <span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple3_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>X))</a>
-<a class="sourceLine" id="cb26-9" title="9">tempcoef=<span class="kw">coef</span>(<span class="kw">lm</span>(Y<span class="op">~</span>.<span class="op">-</span><span class="dv">1</span>,<span class="dt">data=</span>tempdf))</a>
-<a class="sourceLine" id="cb26-10" title="10"><span class="kw">require</span>(lars)</a>
-<a class="sourceLine" id="cb26-11" title="11">lasso<span class="fl">.1</span> &lt;-<span class="st"> </span>lars<span class="op">::</span><span class="kw">lars</span>(<span class="dt">x=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple3_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>X,</a>
-<a class="sourceLine" id="cb26-12" title="12">              <span class="dt">y=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple3_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>Y, <span class="dt">type=</span><span class="st">&quot;lasso&quot;</span>, </a>
-<a class="sourceLine" id="cb26-13" title="13">              <span class="dt">trace=</span><span class="ot">FALSE</span>, <span class="dt">normalize=</span><span class="ot">FALSE</span>, <span class="dt">intercept =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb26-14" title="14"><span class="co"># cv.lars() uses crossvalidation to estimate optimal position in path</span></a>
-<a class="sourceLine" id="cb26-15" title="15">cv.lasso<span class="fl">.1</span> &lt;-<span class="st"> </span>lars<span class="op">::</span><span class="kw">cv.lars</span>(<span class="dt">x=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple3_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>X,</a>
-<a class="sourceLine" id="cb26-16" title="16">              <span class="dt">y=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple3_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>Y, </a>
-<a class="sourceLine" id="cb26-17" title="17">              <span class="dt">plot.it=</span><span class="ot">FALSE</span>, <span class="dt">normalize=</span><span class="ot">FALSE</span>, <span class="dt">intercept =</span> <span class="ot">FALSE</span>, <span class="dt">type=</span><span class="st">&quot;lasso&quot;</span>)</a>
-<a class="sourceLine" id="cb26-18" title="18"><span class="co"># Use the &quot;+1SE rule&quot; to find best model: </span></a>
-<a class="sourceLine" id="cb26-19" title="19"><span class="co">#    Take the min CV and add its SE (&quot;limit&quot;).  </span></a>
-<a class="sourceLine" id="cb26-20" title="20"><span class="co">#    Find smallest model that has its own CV within this limit (at &quot;s.cv.1&quot;)</span></a>
-<a class="sourceLine" id="cb26-21" title="21">limit &lt;-<span class="st"> </span><span class="kw">min</span>(cv.lasso<span class="fl">.1</span><span class="op">$</span>cv) <span class="op">+</span><span class="st"> </span>cv.lasso<span class="fl">.1</span><span class="op">$</span>cv.error[<span class="kw">which.min</span>(cv.lasso<span class="fl">.1</span><span class="op">$</span>cv)]</a>
-<a class="sourceLine" id="cb26-22" title="22">s.cv<span class="fl">.1</span> &lt;-<span class="st"> </span>cv.lasso<span class="fl">.1</span><span class="op">$</span>index[<span class="kw">min</span>(<span class="kw">which</span>(cv.lasso<span class="fl">.1</span><span class="op">$</span>cv <span class="op">&lt;</span><span class="st"> </span>limit))]</a>
-<a class="sourceLine" id="cb26-23" title="23"><span class="co"># Print out coefficients at optimal s.</span></a>
-<a class="sourceLine" id="cb26-24" title="24">coef_lasso_sum=coef_lasso_sum<span class="op">+</span><span class="kw">abs</span>(<span class="kw">coef</span>(lasso<span class="fl">.1</span>, <span class="dt">s=</span>s.cv<span class="fl">.1</span>, <span class="dt">mode=</span><span class="st">&quot;fraction&quot;</span>))</a>
-<a class="sourceLine" id="cb26-25" title="25"><span class="cf">if</span>(<span class="kw">is.null</span>(tempcoef)){</a>
-<a class="sourceLine" id="cb26-26" title="26"><span class="kw">cat</span>(<span class="st">&quot;Error in lm fit, skip coefficients</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
-<a class="sourceLine" id="cb26-27" title="27">error_counter=error_counter<span class="op">+</span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb26-28" title="28">  } <span class="cf">else</span>{</a>
-<a class="sourceLine" id="cb26-29" title="29">coef_sum=coef_sum<span class="op">+</span><span class="kw">abs</span>(tempcoef)</a>
-<a class="sourceLine" id="cb26-30" title="30">}</a>
-<a class="sourceLine" id="cb26-31" title="31">}</a>
-<a class="sourceLine" id="cb26-32" title="32">error_counter</a>
-<a class="sourceLine" id="cb26-33" title="33">coef_mean=coef_sum<span class="op">/</span>NDatasets</a>
-<a class="sourceLine" id="cb26-34" title="34">coef_lasso_mean=coef_lasso_sum<span class="op">/</span>NDatasets</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">cor</span>(Xnorm))</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>mixOmics<span class="sc">::</span><span class="fu">cim</span>(<span class="fu">cor</span>(Xnorm))</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>coef_sum<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">length</span>(supp))</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>coef_lasso_sum<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">length</span>(supp))</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(coef_sum)<span class="ot">&lt;-</span><span class="fu">paste</span>(<span class="st">&quot;x&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(supp),<span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(coef_lasso_sum)<span class="ot">&lt;-</span><span class="fu">paste</span>(<span class="st">&quot;x&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(supp),<span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>error_counter<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>NDatasets){</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>tempdf<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">cbind</span>(<span class="at">Y=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple3_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>Y,</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple3_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>X))</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>tempcoef<span class="ot">=</span><span class="fu">coef</span>(<span class="fu">lm</span>(Y<span class="sc">~</span>.<span class="sc">-</span><span class="dv">1</span>,<span class="at">data=</span>tempdf))</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(lars)</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>lasso<span class="fl">.1</span> <span class="ot">&lt;-</span> lars<span class="sc">::</span><span class="fu">lars</span>(<span class="at">x=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple3_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>X,</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">y=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple3_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>Y, <span class="at">type=</span><span class="st">&quot;lasso&quot;</span>, </span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">trace=</span><span class="cn">FALSE</span>, <span class="at">normalize=</span><span class="cn">FALSE</span>, <span class="at">intercept =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="co"># cv.lars() uses crossvalidation to estimate optimal position in path</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>cv.lasso<span class="fl">.1</span> <span class="ot">&lt;-</span> lars<span class="sc">::</span><span class="fu">cv.lars</span>(<span class="at">x=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple3_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>X,</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>              <span class="at">y=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple3_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>Y, </span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>              <span class="at">plot.it=</span><span class="cn">FALSE</span>, <span class="at">normalize=</span><span class="cn">FALSE</span>, <span class="at">intercept =</span> <span class="cn">FALSE</span>, <span class="at">type=</span><span class="st">&quot;lasso&quot;</span>)</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the &quot;+1SE rule&quot; to find best model: </span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="co">#    Take the min CV and add its SE (&quot;limit&quot;).  </span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="co">#    Find smallest model that has its own CV within this limit (at &quot;s.cv.1&quot;)</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>limit <span class="ot">&lt;-</span> <span class="fu">min</span>(cv.lasso<span class="fl">.1</span><span class="sc">$</span>cv) <span class="sc">+</span> cv.lasso<span class="fl">.1</span><span class="sc">$</span>cv.error[<span class="fu">which.min</span>(cv.lasso<span class="fl">.1</span><span class="sc">$</span>cv)]</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>s.cv<span class="fl">.1</span> <span class="ot">&lt;-</span> cv.lasso<span class="fl">.1</span><span class="sc">$</span>index[<span class="fu">min</span>(<span class="fu">which</span>(cv.lasso<span class="fl">.1</span><span class="sc">$</span>cv <span class="sc">&lt;</span> limit))]</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Print out coefficients at optimal s.</span></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>coef_lasso_sum<span class="ot">=</span>coef_lasso_sum<span class="sc">+</span><span class="fu">abs</span>(<span class="fu">coef</span>(lasso<span class="fl">.1</span>, <span class="at">s=</span>s.cv<span class="fl">.1</span>, <span class="at">mode=</span><span class="st">&quot;fraction&quot;</span>))</span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">is.null</span>(tempcoef)){</span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Error in lm fit, skip coefficients</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>error_counter<span class="ot">=</span>error_counter<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span>{</span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>coef_sum<span class="ot">=</span>coef_sum<span class="sc">+</span><span class="fu">abs</span>(tempcoef)</span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>error_counter</span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>coef_mean<span class="ot">=</span>coef_sum<span class="sc">/</span>NDatasets</span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>coef_lasso_mean<span class="ot">=</span>coef_lasso_sum<span class="sc">/</span>NDatasets</span></code></pre></div>
 <p>With regular least squares and lasso estimators all fits were sucessful, yet only 20 variables coefficients could be estimated with regular least squares estimates for the linear model. Then we display and plot that the mean coefficient vector values for the least squares estimates.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">coef_mean</a>
-<a class="sourceLine" id="cb27-2" title="2"><span class="kw">barplot</span>(coef_mean)</a>
-<a class="sourceLine" id="cb27-3" title="3"><span class="kw">abline</span>(<span class="dt">h=</span>(minB<span class="op">+</span>maxB)<span class="op">/</span><span class="dv">2</span>,<span class="dt">lwd=</span><span class="dv">2</span>,<span class="dt">lty=</span><span class="dv">2</span>,<span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1">coef_lasso_mean</a>
-<a class="sourceLine" id="cb28-2" title="2"><span class="kw">barplot</span>(coef_lasso_mean,<span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">1.5</span>))</a>
-<a class="sourceLine" id="cb28-3" title="3"><span class="kw">abline</span>(<span class="dt">h=</span>(minB<span class="op">+</span>maxB)<span class="op">/</span><span class="dv">2</span>,<span class="dt">lwd=</span><span class="dv">2</span>,<span class="dt">lty=</span><span class="dv">2</span>,<span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>coef_mean</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(coef_mean)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span>(minB<span class="sc">+</span>maxB)<span class="sc">/</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>coef_lasso_mean</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(coef_lasso_mean,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">1.5</span>))</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span>(minB<span class="sc">+</span>maxB)<span class="sc">/</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
 <p>The simulation process looks sucessfull: the lasso estimates retrives mostly the correct variables, yet the other ones are also selected sometimes. What are the confidence indices for those variables?</p>
 </div>
 </div>
@@ -609,80 +438,80 @@ Université de Strasbourg and CNRS<br><a class="author_email" href="mailto:#"><a
 <div id="data-and-response-generations-1" class="section level2">
 <h2>Data and response generations</h2>
 <p>First retrieve the datasets and get the differentially expressed probesets. Run the code to get additionnal plots.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="kw">require</span>(CascadeData)</a>
-<a class="sourceLine" id="cb29-2" title="2"><span class="kw">data</span>(micro_S)</a>
-<a class="sourceLine" id="cb29-3" title="3"><span class="kw">data</span>(micro_US)</a>
-<a class="sourceLine" id="cb29-4" title="4"><span class="kw">require</span>(Cascade)</a>
-<a class="sourceLine" id="cb29-5" title="5">micro_US&lt;-<span class="kw">as.micro_array</span>(micro_US,<span class="kw">c</span>(<span class="dv">60</span>,<span class="dv">90</span>,<span class="dv">240</span>,<span class="dv">390</span>),<span class="dv">6</span>)</a>
-<a class="sourceLine" id="cb29-6" title="6">micro_S&lt;-<span class="kw">as.micro_array</span>(micro_S,<span class="kw">c</span>(<span class="dv">60</span>,<span class="dv">90</span>,<span class="dv">240</span>,<span class="dv">390</span>),<span class="dv">6</span>)</a>
-<a class="sourceLine" id="cb29-7" title="7">S&lt;-<span class="kw">geneSelection</span>(<span class="kw">list</span>(micro_S,micro_US),<span class="kw">list</span>(<span class="st">&quot;condition&quot;</span>,<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),<span class="dv">1</span>),<span class="dv">101</span>)</a>
-<a class="sourceLine" id="cb29-8" title="8">Sel&lt;-micro_S<span class="op">@</span>microarray[S<span class="op">@</span>name,]</a></code></pre></div>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"><span class="kw">summary</span>(S)</a></code></pre></div>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1"><span class="kw">plot</span>(S)</a></code></pre></div>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1">suppt&lt;-<span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,<span class="dv">6</span>)</a>
-<a class="sourceLine" id="cb32-2" title="2">supp&lt;-<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">95</span>)) <span class="co">#not used since we use one of the probeset expressions as response</span></a>
-<a class="sourceLine" id="cb32-3" title="3">minB&lt;-<span class="dv">1</span> <span class="co">#not used since we use one of the probeset expressions as response</span></a>
-<a class="sourceLine" id="cb32-4" title="4">maxB&lt;-<span class="dv">2</span> <span class="co">#not used since we use one of the probeset expressions as response</span></a>
-<a class="sourceLine" id="cb32-5" title="5">stn&lt;-<span class="dv">50</span> <span class="co">#not used since we use one of the probeset expressions as response</span></a>
-<a class="sourceLine" id="cb32-6" title="6">NDatasets&lt;-<span class="dv">101</span></a>
-<a class="sourceLine" id="cb32-7" title="7"></a>
-<a class="sourceLine" id="cb32-8" title="8"><span class="kw">set.seed</span>(<span class="dv">3141</span>)</a>
-<a class="sourceLine" id="cb32-9" title="9"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>NDatasets){</a>
-<a class="sourceLine" id="cb32-10" title="10">  <span class="co">#the explanatory variables are the values for the 1st, 2nd and 3rd timepoints</span></a>
-<a class="sourceLine" id="cb32-11" title="11">  X&lt;-<span class="kw">t</span>(<span class="kw">as.matrix</span>(Sel[<span class="op">-</span>i,suppt<span class="op">!=</span><span class="dv">4</span>]))</a>
-<a class="sourceLine" id="cb32-12" title="12">  Xnorm&lt;-<span class="kw">t</span>(<span class="kw">t</span>(X)<span class="op">/</span><span class="kw">sqrt</span>(<span class="kw">colSums</span>(X<span class="op">*</span>X)))</a>
-<a class="sourceLine" id="cb32-13" title="13">  DATA&lt;-<span class="kw">simulation_DATA</span>(Xnorm,supp,minB,maxB,stn)</a>
-<a class="sourceLine" id="cb32-14" title="14">  <span class="co">#the reponses are the values for the 2nd, 3rd and 4th timepoints</span></a>
-<a class="sourceLine" id="cb32-15" title="15">  DATA<span class="op">$</span>Y&lt;-<span class="kw">as.vector</span>(<span class="kw">t</span>(Sel[i,suppt<span class="op">!=</span><span class="dv">1</span>]))</a>
-<a class="sourceLine" id="cb32-16" title="16">  <span class="kw">assign</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple4_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>),DATA)</a>
-<a class="sourceLine" id="cb32-17" title="17">  <span class="kw">rm</span>(DATA)</a>
-<a class="sourceLine" id="cb32-18" title="18">}</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(CascadeData)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(micro_S)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(micro_US)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(Cascade)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>micro_US<span class="ot">&lt;-</span><span class="fu">as.micro_array</span>(micro_US,<span class="fu">c</span>(<span class="dv">60</span>,<span class="dv">90</span>,<span class="dv">240</span>,<span class="dv">390</span>),<span class="dv">6</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>micro_S<span class="ot">&lt;-</span><span class="fu">as.micro_array</span>(micro_S,<span class="fu">c</span>(<span class="dv">60</span>,<span class="dv">90</span>,<span class="dv">240</span>,<span class="dv">390</span>),<span class="dv">6</span>)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>S<span class="ot">&lt;-</span><span class="fu">geneSelection</span>(<span class="fu">list</span>(micro_S,micro_US),<span class="fu">list</span>(<span class="st">&quot;condition&quot;</span>,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),<span class="dv">1</span>),<span class="dv">101</span>)</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>Sel<span class="ot">&lt;-</span>micro_S<span class="sc">@</span>microarray[S<span class="sc">@</span>name,]</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(S)</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(S)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>suppt<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="dv">6</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>supp<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">95</span>)) <span class="co">#not used since we use one of the probeset expressions as response</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>minB<span class="ot">&lt;-</span><span class="dv">1</span> <span class="co">#not used since we use one of the probeset expressions as response</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>maxB<span class="ot">&lt;-</span><span class="dv">2</span> <span class="co">#not used since we use one of the probeset expressions as response</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>stn<span class="ot">&lt;-</span><span class="dv">50</span> <span class="co">#not used since we use one of the probeset expressions as response</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>NDatasets<span class="ot">&lt;-</span><span class="dv">101</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3141</span>)</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>NDatasets){</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">#the explanatory variables are the values for the 1st, 2nd and 3rd timepoints</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  X<span class="ot">&lt;-</span><span class="fu">t</span>(<span class="fu">as.matrix</span>(Sel[<span class="sc">-</span>i,suppt<span class="sc">!=</span><span class="dv">4</span>]))</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  Xnorm<span class="ot">&lt;-</span><span class="fu">t</span>(<span class="fu">t</span>(X)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">colSums</span>(X<span class="sc">*</span>X)))</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>  DATA<span class="ot">&lt;-</span><span class="fu">simulation_DATA</span>(Xnorm,supp,minB,maxB,stn)</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">#the reponses are the values for the 2nd, 3rd and 4th timepoints</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>  DATA<span class="sc">$</span>Y<span class="ot">&lt;-</span><span class="fu">as.vector</span>(<span class="fu">t</span>(Sel[i,suppt<span class="sc">!=</span><span class="dv">1</span>]))</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple4_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>),DATA)</span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rm</span>(DATA)</span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="checks-2" class="section level2">
 <h2>Checks</h2>
 <p>Here are the plots of an example of correlation structure, namely for <code>DATA_exemple3_nb_200$X</code>. Run the code to get the graphics.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="kw">plot</span>(<span class="kw">cor</span>(Xnorm))</a>
-<a class="sourceLine" id="cb33-2" title="2">mixOmics<span class="op">::</span><span class="kw">cim</span>(<span class="kw">cor</span>(Xnorm))</a></code></pre></div>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1">coef_sum=<span class="kw">rep</span>(<span class="dv">0</span>,<span class="kw">length</span>(supp)<span class="op">+</span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb34-2" title="2">coef_lasso_sum=<span class="kw">rep</span>(<span class="dv">0</span>,<span class="kw">length</span>(supp)<span class="op">+</span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb34-3" title="3"><span class="kw">names</span>(coef_sum)&lt;-<span class="kw">paste</span>(<span class="st">&quot;x&quot;</span>,<span class="dv">1</span><span class="op">:</span>(<span class="kw">length</span>(supp)<span class="op">+</span><span class="dv">1</span>),<span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</a>
-<a class="sourceLine" id="cb34-4" title="4"><span class="kw">names</span>(coef_lasso_sum)&lt;-<span class="kw">paste</span>(<span class="st">&quot;x&quot;</span>,<span class="dv">1</span><span class="op">:</span>(<span class="kw">length</span>(supp)<span class="op">+</span><span class="dv">1</span>),<span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</a>
-<a class="sourceLine" id="cb34-5" title="5">error_counter=<span class="dv">0</span></a>
-<a class="sourceLine" id="cb34-6" title="6"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>NDatasets){</a>
-<a class="sourceLine" id="cb34-7" title="7">tempdf=<span class="kw">data.frame</span>(<span class="kw">cbind</span>(<span class="dt">Y=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple4_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>Y,</a>
-<a class="sourceLine" id="cb34-8" title="8">                        <span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple4_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>X))</a>
-<a class="sourceLine" id="cb34-9" title="9">tempcoef=<span class="kw">coef</span>(<span class="kw">lm</span>(Y<span class="op">~</span>.<span class="op">-</span><span class="dv">1</span>,<span class="dt">data=</span>tempdf))</a>
-<a class="sourceLine" id="cb34-10" title="10"><span class="kw">require</span>(lars)</a>
-<a class="sourceLine" id="cb34-11" title="11">lasso<span class="fl">.1</span> &lt;-<span class="st"> </span>lars<span class="op">::</span><span class="kw">lars</span>(<span class="dt">x=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple4_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>X,</a>
-<a class="sourceLine" id="cb34-12" title="12">              <span class="dt">y=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple4_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>Y, <span class="dt">type=</span><span class="st">&quot;lasso&quot;</span>, </a>
-<a class="sourceLine" id="cb34-13" title="13">              <span class="dt">trace=</span><span class="ot">FALSE</span>, <span class="dt">normalize=</span><span class="ot">FALSE</span>, <span class="dt">intercept =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb34-14" title="14"><span class="co"># cv.lars() uses crossvalidation to estimate optimal position in path</span></a>
-<a class="sourceLine" id="cb34-15" title="15">cv.lasso<span class="fl">.1</span> &lt;-<span class="st"> </span>lars<span class="op">::</span><span class="kw">cv.lars</span>(<span class="dt">x=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple4_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>X,</a>
-<a class="sourceLine" id="cb34-16" title="16">              <span class="dt">y=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple4_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>Y, </a>
-<a class="sourceLine" id="cb34-17" title="17">              <span class="dt">plot.it=</span><span class="ot">FALSE</span>, <span class="dt">normalize=</span><span class="ot">FALSE</span>, <span class="dt">intercept =</span> <span class="ot">FALSE</span>, <span class="dt">type=</span><span class="st">&quot;lasso&quot;</span>)</a>
-<a class="sourceLine" id="cb34-18" title="18"><span class="co"># Use the &quot;+1SE rule&quot; to find best model: </span></a>
-<a class="sourceLine" id="cb34-19" title="19"><span class="co">#    Take the min CV and add its SE (&quot;limit&quot;).  </span></a>
-<a class="sourceLine" id="cb34-20" title="20"><span class="co">#    Find smallest model that has its own CV within this limit (at &quot;s.cv.1&quot;)</span></a>
-<a class="sourceLine" id="cb34-21" title="21">limit &lt;-<span class="st"> </span><span class="kw">min</span>(cv.lasso<span class="fl">.1</span><span class="op">$</span>cv) <span class="op">+</span><span class="st"> </span>cv.lasso<span class="fl">.1</span><span class="op">$</span>cv.error[<span class="kw">which.min</span>(cv.lasso<span class="fl">.1</span><span class="op">$</span>cv)]</a>
-<a class="sourceLine" id="cb34-22" title="22">s.cv<span class="fl">.1</span> &lt;-<span class="st"> </span>cv.lasso<span class="fl">.1</span><span class="op">$</span>index[<span class="kw">min</span>(<span class="kw">which</span>(cv.lasso<span class="fl">.1</span><span class="op">$</span>cv <span class="op">&lt;</span><span class="st"> </span>limit))]</a>
-<a class="sourceLine" id="cb34-23" title="23"><span class="co"># Print out coefficients at optimal s.</span></a>
-<a class="sourceLine" id="cb34-24" title="24">coef_lasso_sum[<span class="op">-</span>i]=coef_lasso_sum[<span class="op">-</span>i]<span class="op">+</span><span class="kw">abs</span>(<span class="kw">coef</span>(lasso<span class="fl">.1</span>, <span class="dt">s=</span>s.cv<span class="fl">.1</span>, <span class="dt">mode=</span><span class="st">&quot;fraction&quot;</span>))</a>
-<a class="sourceLine" id="cb34-25" title="25"><span class="cf">if</span>(<span class="kw">is.null</span>(tempcoef)){</a>
-<a class="sourceLine" id="cb34-26" title="26"><span class="kw">cat</span>(<span class="st">&quot;Error in lm fit, skip coefficients</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
-<a class="sourceLine" id="cb34-27" title="27">error_counter=error_counter<span class="op">+</span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb34-28" title="28">  } <span class="cf">else</span>{</a>
-<a class="sourceLine" id="cb34-29" title="29">coef_sum[<span class="op">-</span>i]=coef_sum[<span class="op">-</span>i]<span class="op">+</span><span class="kw">abs</span>(tempcoef)</a>
-<a class="sourceLine" id="cb34-30" title="30">}</a>
-<a class="sourceLine" id="cb34-31" title="31">}</a>
-<a class="sourceLine" id="cb34-32" title="32">error_counter</a>
-<a class="sourceLine" id="cb34-33" title="33">coef_mean=coef_sum<span class="op">/</span>NDatasets</a>
-<a class="sourceLine" id="cb34-34" title="34">coef_lasso_mean=coef_lasso_sum<span class="op">/</span>NDatasets</a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">cor</span>(Xnorm))</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>mixOmics<span class="sc">::</span><span class="fu">cim</span>(<span class="fu">cor</span>(Xnorm))</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>coef_sum<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">length</span>(supp)<span class="sc">+</span><span class="dv">1</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>coef_lasso_sum<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">length</span>(supp)<span class="sc">+</span><span class="dv">1</span>)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(coef_sum)<span class="ot">&lt;-</span><span class="fu">paste</span>(<span class="st">&quot;x&quot;</span>,<span class="dv">1</span><span class="sc">:</span>(<span class="fu">length</span>(supp)<span class="sc">+</span><span class="dv">1</span>),<span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(coef_lasso_sum)<span class="ot">&lt;-</span><span class="fu">paste</span>(<span class="st">&quot;x&quot;</span>,<span class="dv">1</span><span class="sc">:</span>(<span class="fu">length</span>(supp)<span class="sc">+</span><span class="dv">1</span>),<span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>error_counter<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>NDatasets){</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>tempdf<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">cbind</span>(<span class="at">Y=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple4_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>Y,</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple4_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>X))</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>tempcoef<span class="ot">=</span><span class="fu">coef</span>(<span class="fu">lm</span>(Y<span class="sc">~</span>.<span class="sc">-</span><span class="dv">1</span>,<span class="at">data=</span>tempdf))</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(lars)</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>lasso<span class="fl">.1</span> <span class="ot">&lt;-</span> lars<span class="sc">::</span><span class="fu">lars</span>(<span class="at">x=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple4_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>X,</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">y=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple4_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>Y, <span class="at">type=</span><span class="st">&quot;lasso&quot;</span>, </span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">trace=</span><span class="cn">FALSE</span>, <span class="at">normalize=</span><span class="cn">FALSE</span>, <span class="at">intercept =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a><span class="co"># cv.lars() uses crossvalidation to estimate optimal position in path</span></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>cv.lasso<span class="fl">.1</span> <span class="ot">&lt;-</span> lars<span class="sc">::</span><span class="fu">cv.lars</span>(<span class="at">x=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple4_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>X,</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>              <span class="at">y=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple4_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>Y, </span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>              <span class="at">plot.it=</span><span class="cn">FALSE</span>, <span class="at">normalize=</span><span class="cn">FALSE</span>, <span class="at">intercept =</span> <span class="cn">FALSE</span>, <span class="at">type=</span><span class="st">&quot;lasso&quot;</span>)</span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the &quot;+1SE rule&quot; to find best model: </span></span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a><span class="co">#    Take the min CV and add its SE (&quot;limit&quot;).  </span></span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a><span class="co">#    Find smallest model that has its own CV within this limit (at &quot;s.cv.1&quot;)</span></span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>limit <span class="ot">&lt;-</span> <span class="fu">min</span>(cv.lasso<span class="fl">.1</span><span class="sc">$</span>cv) <span class="sc">+</span> cv.lasso<span class="fl">.1</span><span class="sc">$</span>cv.error[<span class="fu">which.min</span>(cv.lasso<span class="fl">.1</span><span class="sc">$</span>cv)]</span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>s.cv<span class="fl">.1</span> <span class="ot">&lt;-</span> cv.lasso<span class="fl">.1</span><span class="sc">$</span>index[<span class="fu">min</span>(<span class="fu">which</span>(cv.lasso<span class="fl">.1</span><span class="sc">$</span>cv <span class="sc">&lt;</span> limit))]</span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Print out coefficients at optimal s.</span></span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>coef_lasso_sum[<span class="sc">-</span>i]<span class="ot">=</span>coef_lasso_sum[<span class="sc">-</span>i]<span class="sc">+</span><span class="fu">abs</span>(<span class="fu">coef</span>(lasso<span class="fl">.1</span>, <span class="at">s=</span>s.cv<span class="fl">.1</span>, <span class="at">mode=</span><span class="st">&quot;fraction&quot;</span>))</span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">is.null</span>(tempcoef)){</span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Error in lm fit, skip coefficients</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a>error_counter<span class="ot">=</span>error_counter<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span>{</span>
+<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a>coef_sum[<span class="sc">-</span>i]<span class="ot">=</span>coef_sum[<span class="sc">-</span>i]<span class="sc">+</span><span class="fu">abs</span>(tempcoef)</span>
+<span id="cb34-30"><a href="#cb34-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb34-31"><a href="#cb34-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb34-32"><a href="#cb34-32" aria-hidden="true" tabindex="-1"></a>error_counter</span>
+<span id="cb34-33"><a href="#cb34-33" aria-hidden="true" tabindex="-1"></a>coef_mean<span class="ot">=</span>coef_sum<span class="sc">/</span>NDatasets</span>
+<span id="cb34-34"><a href="#cb34-34" aria-hidden="true" tabindex="-1"></a>coef_lasso_mean<span class="ot">=</span>coef_lasso_sum<span class="sc">/</span>NDatasets</span></code></pre></div>
 <p>With regular least squares and lasso estimators all fits were sucessful, yet only 20 variables coefficients could be estimated with regular least squares estimates for the linear model. Then we display and plot that the mean coefficient vector values for the least squares estimates.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1"><span class="kw">head</span>(coef_mean, <span class="dv">40</span>)</a>
-<a class="sourceLine" id="cb35-2" title="2"><span class="kw">barplot</span>(coef_mean)</a>
-<a class="sourceLine" id="cb35-3" title="3"><span class="kw">abline</span>(<span class="dt">h=</span>(minB<span class="op">+</span>maxB)<span class="op">/</span><span class="dv">2</span>,<span class="dt">lwd=</span><span class="dv">2</span>,<span class="dt">lty=</span><span class="dv">2</span>,<span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1"><span class="kw">head</span>(coef_lasso_mean, <span class="dv">40</span>)</a>
-<a class="sourceLine" id="cb36-2" title="2"><span class="kw">barplot</span>(coef_lasso_mean)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(coef_mean, <span class="dv">40</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(coef_mean)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span>(minB<span class="sc">+</span>maxB)<span class="sc">/</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(coef_lasso_mean, <span class="dv">40</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(coef_lasso_mean)</span></code></pre></div>
 <p>Some probesets seem explanatory for many other ones (=hubs). What are the confidence indices for those variables?</p>
 </div>
 </div>
@@ -698,75 +527,75 @@ Université de Strasbourg and CNRS<br><a class="author_email" href="mailto:#"><a
 </div>
 <div id="correlation-structure-2" class="section level2">
 <h2>Correlation structure</h2>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1">  group&lt;-<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">500</span>) <span class="co">#500 variables</span></a>
-<a class="sourceLine" id="cb37-2" title="2">  cor_group&lt;-<span class="kw">rep</span>(<span class="fl">0.5</span>,<span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>  group<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">500</span>) <span class="co">#500 variables</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  cor_group<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="fl">0.5</span>,<span class="dv">1</span>)</span></code></pre></div>
 </div>
 <div id="explanatory-variables-and-response-1" class="section level2">
 <h2>Explanatory variables and response</h2>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1"><span class="kw">set.seed</span>(<span class="dv">3141</span>)</a>
-<a class="sourceLine" id="cb38-2" title="2">N&lt;-<span class="dv">25</span></a>
-<a class="sourceLine" id="cb38-3" title="3">supp&lt;-<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">495</span>))</a>
-<a class="sourceLine" id="cb38-4" title="4">minB&lt;-<span class="dv">1</span></a>
-<a class="sourceLine" id="cb38-5" title="5">maxB&lt;-<span class="dv">2</span></a>
-<a class="sourceLine" id="cb38-6" title="6">stn&lt;-<span class="dv">50</span></a>
-<a class="sourceLine" id="cb38-7" title="7"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>NDatasets){</a>
-<a class="sourceLine" id="cb38-8" title="8">  C&lt;-<span class="kw">simulation_cor</span>(group,cor_group)</a>
-<a class="sourceLine" id="cb38-9" title="9">  X&lt;-<span class="kw">simulation_X</span>(N,C)</a>
-<a class="sourceLine" id="cb38-10" title="10">  <span class="kw">assign</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple5_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>),<span class="kw">simulation_DATA</span>(X,supp,minB,maxB,stn))</a>
-<a class="sourceLine" id="cb38-11" title="11">}</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3141</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>N<span class="ot">&lt;-</span><span class="dv">25</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>supp<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">495</span>))</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>minB<span class="ot">&lt;-</span><span class="dv">1</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>maxB<span class="ot">&lt;-</span><span class="dv">2</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>stn<span class="ot">&lt;-</span><span class="dv">50</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>NDatasets){</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  C<span class="ot">&lt;-</span><span class="fu">simulation_cor</span>(group,cor_group)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  X<span class="ot">&lt;-</span><span class="fu">simulation_X</span>(N,C)</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple5_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>),<span class="fu">simulation_DATA</span>(X,supp,minB,maxB,stn))</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="checks-3" class="section level2">
 <h2>Checks</h2>
 <p>We now check the correlation structure of the explanatory variable. First we compute the mean correlation matrix.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1">corr_sum=<span class="kw">matrix</span>(<span class="dv">0</span>,<span class="kw">length</span>(group),<span class="kw">length</span>(group))</a>
-<a class="sourceLine" id="cb39-2" title="2"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>NDatasets){</a>
-<a class="sourceLine" id="cb39-3" title="3">corr_sum=corr_sum<span class="op">+</span><span class="kw">cor</span>(<span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple5_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>X)</a>
-<a class="sourceLine" id="cb39-4" title="4">}</a>
-<a class="sourceLine" id="cb39-5" title="5">corr_mean=corr_sum<span class="op">/</span>NDatasets</a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>corr_sum<span class="ot">=</span><span class="fu">matrix</span>(<span class="dv">0</span>,<span class="fu">length</span>(group),<span class="fu">length</span>(group))</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>NDatasets){</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>corr_sum<span class="ot">=</span>corr_sum<span class="sc">+</span><span class="fu">cor</span>(<span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple5_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>X)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>corr_mean<span class="ot">=</span>corr_sum<span class="sc">/</span>NDatasets</span></code></pre></div>
 <p>Then we display and plot that the mean correlation matrix.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1">corr_mean[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a>
-<a class="sourceLine" id="cb40-2" title="2"><span class="kw">plot</span>(<span class="kw">abs</span>(corr_mean))</a></code></pre></div>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1">coef_sum=<span class="kw">rep</span>(<span class="dv">0</span>,<span class="kw">length</span>(group))</a>
-<a class="sourceLine" id="cb41-2" title="2">coef_lasso_sum=<span class="kw">rep</span>(<span class="dv">0</span>,<span class="kw">length</span>(group))</a>
-<a class="sourceLine" id="cb41-3" title="3"><span class="kw">names</span>(coef_sum)&lt;-<span class="kw">paste</span>(<span class="st">&quot;x&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(group),<span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</a>
-<a class="sourceLine" id="cb41-4" title="4"><span class="kw">names</span>(coef_lasso_sum)&lt;-<span class="kw">paste</span>(<span class="st">&quot;x&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(group),<span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</a>
-<a class="sourceLine" id="cb41-5" title="5">error_counter=<span class="dv">0</span></a>
-<a class="sourceLine" id="cb41-6" title="6"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>NDatasets){</a>
-<a class="sourceLine" id="cb41-7" title="7">tempdf=<span class="kw">data.frame</span>(<span class="kw">cbind</span>(<span class="dt">Y=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple5_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>Y,</a>
-<a class="sourceLine" id="cb41-8" title="8">                        <span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple5_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>X))</a>
-<a class="sourceLine" id="cb41-9" title="9">tempcoef=<span class="kw">coef</span>(<span class="kw">lm</span>(Y<span class="op">~</span>.<span class="op">-</span><span class="dv">1</span>,<span class="dt">data=</span>tempdf))</a>
-<a class="sourceLine" id="cb41-10" title="10"><span class="kw">require</span>(lars)</a>
-<a class="sourceLine" id="cb41-11" title="11">lasso<span class="fl">.1</span> &lt;-<span class="st"> </span>lars<span class="op">::</span><span class="kw">lars</span>(<span class="dt">x=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple5_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>X,</a>
-<a class="sourceLine" id="cb41-12" title="12">              <span class="dt">y=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple5_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>Y, <span class="dt">type=</span><span class="st">&quot;lasso&quot;</span>, </a>
-<a class="sourceLine" id="cb41-13" title="13">              <span class="dt">trace=</span><span class="ot">FALSE</span>, <span class="dt">normalize=</span><span class="ot">FALSE</span>, <span class="dt">intercept =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb41-14" title="14"><span class="co"># cv.lars() uses crossvalidation to estimate optimal position in path</span></a>
-<a class="sourceLine" id="cb41-15" title="15">cv.lasso<span class="fl">.1</span> &lt;-<span class="st"> </span>lars<span class="op">::</span><span class="kw">cv.lars</span>(<span class="dt">x=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple5_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>X,</a>
-<a class="sourceLine" id="cb41-16" title="16">              <span class="dt">y=</span><span class="kw">get</span>(<span class="kw">paste</span>(<span class="st">&quot;DATA_exemple5_nb_&quot;</span>,i,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))<span class="op">$</span>Y, </a>
-<a class="sourceLine" id="cb41-17" title="17">              <span class="dt">plot.it=</span><span class="ot">FALSE</span>, <span class="dt">type=</span><span class="st">&quot;lasso&quot;</span>)</a>
-<a class="sourceLine" id="cb41-18" title="18"><span class="co"># Use the &quot;+1SE rule&quot; to find best model: </span></a>
-<a class="sourceLine" id="cb41-19" title="19"><span class="co">#    Take the min CV and add its SE (&quot;limit&quot;).  </span></a>
-<a class="sourceLine" id="cb41-20" title="20"><span class="co">#    Find smallest model that has its own CV within this limit (at &quot;s.cv.1&quot;)</span></a>
-<a class="sourceLine" id="cb41-21" title="21">limit &lt;-<span class="st"> </span><span class="kw">min</span>(cv.lasso<span class="fl">.1</span><span class="op">$</span>cv) <span class="op">+</span><span class="st"> </span>cv.lasso<span class="fl">.1</span><span class="op">$</span>cv.error[<span class="kw">which.min</span>(cv.lasso<span class="fl">.1</span><span class="op">$</span>cv)]</a>
-<a class="sourceLine" id="cb41-22" title="22">s.cv<span class="fl">.1</span> &lt;-<span class="st"> </span>cv.lasso<span class="fl">.1</span><span class="op">$</span>index[<span class="kw">min</span>(<span class="kw">which</span>(cv.lasso<span class="fl">.1</span><span class="op">$</span>cv <span class="op">&lt;</span><span class="st"> </span>limit))]</a>
-<a class="sourceLine" id="cb41-23" title="23"><span class="co"># Print out coefficients at optimal s.</span></a>
-<a class="sourceLine" id="cb41-24" title="24">coef_lasso_sum=coef_lasso_sum<span class="op">+</span><span class="kw">abs</span>(<span class="kw">coef</span>(lasso<span class="fl">.1</span>, <span class="dt">s=</span>s.cv<span class="fl">.1</span>, <span class="dt">mode=</span><span class="st">&quot;fraction&quot;</span>))</a>
-<a class="sourceLine" id="cb41-25" title="25"><span class="cf">if</span>(<span class="kw">is.null</span>(tempcoef)){</a>
-<a class="sourceLine" id="cb41-26" title="26"><span class="kw">cat</span>(<span class="st">&quot;Error in lm fit, skip coefficients</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
-<a class="sourceLine" id="cb41-27" title="27">error_counter=error_counter<span class="op">+</span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb41-28" title="28">  } <span class="cf">else</span>{</a>
-<a class="sourceLine" id="cb41-29" title="29">coef_sum=coef_sum<span class="op">+</span><span class="kw">abs</span>(tempcoef)</a>
-<a class="sourceLine" id="cb41-30" title="30">}</a>
-<a class="sourceLine" id="cb41-31" title="31">}</a>
-<a class="sourceLine" id="cb41-32" title="32">error_counter</a>
-<a class="sourceLine" id="cb41-33" title="33">coef_mean=coef_sum<span class="op">/</span>NDatasets</a>
-<a class="sourceLine" id="cb41-34" title="34">coef_lasso_mean=coef_lasso_sum<span class="op">/</span>NDatasets</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>corr_mean[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">abs</span>(corr_mean))</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>coef_sum<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">length</span>(group))</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>coef_lasso_sum<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">length</span>(group))</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(coef_sum)<span class="ot">&lt;-</span><span class="fu">paste</span>(<span class="st">&quot;x&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(group),<span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(coef_lasso_sum)<span class="ot">&lt;-</span><span class="fu">paste</span>(<span class="st">&quot;x&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(group),<span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>error_counter<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>NDatasets){</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>tempdf<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">cbind</span>(<span class="at">Y=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple5_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>Y,</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple5_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>X))</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>tempcoef<span class="ot">=</span><span class="fu">coef</span>(<span class="fu">lm</span>(Y<span class="sc">~</span>.<span class="sc">-</span><span class="dv">1</span>,<span class="at">data=</span>tempdf))</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(lars)</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>lasso<span class="fl">.1</span> <span class="ot">&lt;-</span> lars<span class="sc">::</span><span class="fu">lars</span>(<span class="at">x=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple5_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>X,</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">y=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple5_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>Y, <span class="at">type=</span><span class="st">&quot;lasso&quot;</span>, </span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">trace=</span><span class="cn">FALSE</span>, <span class="at">normalize=</span><span class="cn">FALSE</span>, <span class="at">intercept =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a><span class="co"># cv.lars() uses crossvalidation to estimate optimal position in path</span></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>cv.lasso<span class="fl">.1</span> <span class="ot">&lt;-</span> lars<span class="sc">::</span><span class="fu">cv.lars</span>(<span class="at">x=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple5_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>X,</span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>              <span class="at">y=</span><span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">&quot;DATA_exemple5_nb_&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">$</span>Y, </span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>              <span class="at">plot.it=</span><span class="cn">FALSE</span>, <span class="at">type=</span><span class="st">&quot;lasso&quot;</span>)</span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the &quot;+1SE rule&quot; to find best model: </span></span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a><span class="co">#    Take the min CV and add its SE (&quot;limit&quot;).  </span></span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a><span class="co">#    Find smallest model that has its own CV within this limit (at &quot;s.cv.1&quot;)</span></span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>limit <span class="ot">&lt;-</span> <span class="fu">min</span>(cv.lasso<span class="fl">.1</span><span class="sc">$</span>cv) <span class="sc">+</span> cv.lasso<span class="fl">.1</span><span class="sc">$</span>cv.error[<span class="fu">which.min</span>(cv.lasso<span class="fl">.1</span><span class="sc">$</span>cv)]</span>
+<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>s.cv<span class="fl">.1</span> <span class="ot">&lt;-</span> cv.lasso<span class="fl">.1</span><span class="sc">$</span>index[<span class="fu">min</span>(<span class="fu">which</span>(cv.lasso<span class="fl">.1</span><span class="sc">$</span>cv <span class="sc">&lt;</span> limit))]</span>
+<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Print out coefficients at optimal s.</span></span>
+<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a>coef_lasso_sum<span class="ot">=</span>coef_lasso_sum<span class="sc">+</span><span class="fu">abs</span>(<span class="fu">coef</span>(lasso<span class="fl">.1</span>, <span class="at">s=</span>s.cv<span class="fl">.1</span>, <span class="at">mode=</span><span class="st">&quot;fraction&quot;</span>))</span>
+<span id="cb41-25"><a href="#cb41-25" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">is.null</span>(tempcoef)){</span>
+<span id="cb41-26"><a href="#cb41-26" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Error in lm fit, skip coefficients</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb41-27"><a href="#cb41-27" aria-hidden="true" tabindex="-1"></a>error_counter<span class="ot">=</span>error_counter<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb41-28"><a href="#cb41-28" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span>{</span>
+<span id="cb41-29"><a href="#cb41-29" aria-hidden="true" tabindex="-1"></a>coef_sum<span class="ot">=</span>coef_sum<span class="sc">+</span><span class="fu">abs</span>(tempcoef)</span>
+<span id="cb41-30"><a href="#cb41-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb41-31"><a href="#cb41-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb41-32"><a href="#cb41-32" aria-hidden="true" tabindex="-1"></a>error_counter</span>
+<span id="cb41-33"><a href="#cb41-33" aria-hidden="true" tabindex="-1"></a>coef_mean<span class="ot">=</span>coef_sum<span class="sc">/</span>NDatasets</span>
+<span id="cb41-34"><a href="#cb41-34" aria-hidden="true" tabindex="-1"></a>coef_lasso_mean<span class="ot">=</span>coef_lasso_sum<span class="sc">/</span>NDatasets</span></code></pre></div>
 <p>With regular least squares and lasso estimators all fits were sucessful, yet only 20 variables coefficients could be estimated with regular least squares estimates for the linear model. Then we display and plot that the mean coefficient vector values for the least squares estimates.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1"><span class="kw">head</span>(coef_mean, <span class="dv">40</span>)</a>
-<a class="sourceLine" id="cb42-2" title="2"><span class="kw">barplot</span>(coef_mean)</a>
-<a class="sourceLine" id="cb42-3" title="3"><span class="kw">abline</span>(<span class="dt">h=</span>(minB<span class="op">+</span>maxB)<span class="op">/</span><span class="dv">2</span>,<span class="dt">lwd=</span><span class="dv">2</span>,<span class="dt">lty=</span><span class="dv">2</span>,<span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1"><span class="kw">head</span>(coef_lasso_mean, <span class="dv">40</span>)</a>
-<a class="sourceLine" id="cb43-2" title="2"><span class="kw">barplot</span>(coef_lasso_mean,<span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">1.5</span>))</a>
-<a class="sourceLine" id="cb43-3" title="3"><span class="kw">abline</span>(<span class="dt">h=</span>(minB<span class="op">+</span>maxB)<span class="op">/</span><span class="dv">2</span>,<span class="dt">lwd=</span><span class="dv">2</span>,<span class="dt">lty=</span><span class="dv">2</span>,<span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(coef_mean, <span class="dv">40</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(coef_mean)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span>(minB<span class="sc">+</span>maxB)<span class="sc">/</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(coef_lasso_mean, <span class="dv">40</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(coef_lasso_mean,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">1.5</span>))</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span>(minB<span class="sc">+</span>maxB)<span class="sc">/</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
 <p>The simulation process looks sucessfull: the lasso estimates retrives mostly the correct variables, yet the other ones are also selected sometimes. What are the confidence indices for those variables?</p>
 </div>
 </div>
