@@ -1,3 +1,7 @@
+# SelectBoost 2.2.1
+
+* Update email maintainer address and fix parallel note
+
 # SelectBoost 2.2.0
 
 * Add more badges, logo and update pkgdown site
