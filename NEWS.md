@@ -1,6 +1,10 @@
+# SelectBoost 2.2.2
+
+* Update email maintainer address
+
 # SelectBoost 2.2.1
 
-* Update email maintainer address and fix parallel note
+* Fix parallel note
 
 # SelectBoost 2.2.0
 
